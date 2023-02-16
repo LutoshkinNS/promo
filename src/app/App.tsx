@@ -1,1 +1,6 @@
-export const App = () => <div>app</div>;
+import { Main } from "pages/Main/ui/Main";
+import "./styles/index.css";
+
+export const App = () => {
+  return <Main />;
+};

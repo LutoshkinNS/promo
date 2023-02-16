@@ -1,0 +1,27 @@
+.TitleWithTextBlock {
+    max-width: 310px;
+}
+
+.title {
+    padding-bottom: 18px;
+}
+
+.left {
+    text-align: left;
+}
+
+.center {
+    text-align: center;
+}
+
+.right {
+    text-align: right;
+}
+
+.primary {
+    color: var(--primary-text-color);
+}
+
+.secondary {
+    color: var(--secondary-text-color);
+}

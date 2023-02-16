@@ -1,0 +1,77 @@
+@font-face {
+    font-family: 'GraphikLCG';
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Bold.eot');
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Bold.ttf') format('embedded-opentype'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Bold.woff') format('woff'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Bold.woff2') format('woff2'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Semibold.eot');
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Semibold.ttf') format('embedded-opentype'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Semibold.woff') format('woff'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Semibold.woff2') format('woff2'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Semibold.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Medium.eot');
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Medium.ttf') format('embedded-opentype'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Medium.woff') format('woff'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Medium.woff2') format('woff2'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Regular.eot');
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Regular.ttf') format('embedded-opentype'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Regular.woff') format('woff'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Regular.woff2') format('woff2'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Light.eot');
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Light.ttf') format('embedded-opentype'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Light.woff') format('woff'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Light.woff2') format('woff2'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'GraphikLCG';
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Extralight.eot');
+    src: url('shared/assets/fonts/GraphikLCG/GraphikLCG-Extralight.ttf') format('embedded-opentype'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Extralight.woff') format('woff'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Extralight.woff2') format('woff2'),
+    url('shared/assets/fonts/GraphikLCG/GraphikLCG-Extralight.ttf') format('truetype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-weight: 900;
+    font-style: normal;
+    src: url("shared/assets/fonts/Montserrat/Montserrat-Black.woff2") format("woff2"),
+    url("shared/assets/fonts/Montserrat/Montserrat-Black.woff") format("woff"),
+    url("shared/assets/fonts/Montserrat/Montserrat-Black.otf") format('opentype'),
+    url("shared/assets/fonts/Montserrat/Montserrat-Black.ttf") format('truetype');
+}
+
+

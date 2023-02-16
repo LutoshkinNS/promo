@@ -1,0 +1,32 @@
+.PreviewBlock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    flex-wrap: wrap;
+    overflow: hidden;
+}
+
+.textBlock {
+    max-width: 777px;
+    flex-shrink: 1;
+}
+
+.title {
+    margin-bottom: 30px;
+}
+
+.text {
+    max-width: 575px;
+}
+
+.imgBlock {
+    max-height: 507px;
+    max-width: 666px;
+    flex-shrink: 2;
+}
+
+.img {
+    max-width: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.39539565826330536) 0%, rgba(255,255,255,0) 60%);
+}

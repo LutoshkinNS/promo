@@ -1,0 +1,31 @@
+.Subtitle {
+    display: inline-block;
+    font-weight: 500;
+    margin: 0px;
+}
+
+.gradient {
+    background-image: var(--bg-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.primary {
+    color: var(--primary-text-color);
+}
+
+.secondary {
+    color: var(--secondary-text-color);
+}
+
+
+.m {
+    font-size: var(--subtitle-size-m);
+    line-height: var(--subtitle-line-height-m);
+}
+
+.l {
+    font-size: var(--subtitle-size-l);
+    line-height: var(--subtitle-line-height-l);
+}

@@ -1,0 +1,38 @@
+.Text {
+    font-weight: 400;
+    margin: 0;
+}
+
+.primary {
+    color: var(--primary-text-color);
+}
+
+.secondary {
+    color: var(--secondary-text-color);
+}
+
+.third {
+    color: var(--third-text-color);
+}
+
+.m {
+    font-size: var(--text-size-m);
+    line-height: var(--line-height-m);
+}
+
+.l {
+    font-size: var(--text-size-l);
+    line-height: var(--line-height-l);
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
+}

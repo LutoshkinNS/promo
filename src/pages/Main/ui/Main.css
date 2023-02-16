@@ -1,0 +1,33 @@
+.main-swiper-vertical {
+
+}
+
+.swiper {
+    height: 100%;
+    width: 100%;
+}
+
+.swiper-button-next {
+    position: absolute;
+    bottom: 4vh;
+    left: calc(50% - 40px);
+    height: 80px;
+    width: 80px;
+    background-image: url("shared/assets/img/arrow-down.svg");
+    z-index: 10;
+    cursor: pointer;
+}
+
+.swiper-horizontal .swiper-slide {
+    padding-top: 10vh;
+    padding-bottom: calc(20vh);
+}
+
+.swiper-pagination {
+    bottom: 20vh !important;
+}
+
+.preview-text {
+    margin-bottom: 50px;
+}
+

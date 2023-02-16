@@ -1,0 +1,22 @@
+.MainSlideBlock {
+    position: relative;
+    display: flex;
+    align-items: end;
+    justify-content: center;
+    text-align: center;
+    max-width: 1285px;
+    margin: 0 auto;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,255,255,0.39539565826330536) 0%, rgba(255,255,255,0) 40%);
+}
+
+.title {
+    position: absolute;
+    text-align: center;
+    height: 100%;
+    width: 100%;
+}
+
+.text {
+    text-align: center;
+}

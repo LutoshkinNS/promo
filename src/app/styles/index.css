@@ -1,0 +1,14 @@
+@import 'normalize.css';
+@import "app/styles/fonts.css";
+@import "app/styles/variables/global.css";
+@import "app/styles/variables/colors.css";
+
+#root {
+    height: 100vh;
+    font: var(--base-font);
+}
+
+*, *:after, *:before {
+    box-sizing: border-box;
+}
+

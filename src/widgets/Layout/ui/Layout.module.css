@@ -1,0 +1,16 @@
+.layout {
+    background-image: var(--bg-gradient);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.header {
+    height: var(--header-height);
+    border-bottom: 1px solid var(--light);
+    opacity: 0.5;
+}
+
+.main {
+    min-height: 300px;
+    height: var(--content-height);
+}

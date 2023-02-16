@@ -1,0 +1,25 @@
+:root {
+    --header-height: 84px;
+    --content-height: calc(100vh - 84px);
+
+    --text-size-m: 18px;
+    --line-height-m: 1.4;
+
+    --text-size-l: 20px;
+    --line-height-l: 1.4;
+
+    --subtitle-size-m: 34px;
+    --subtitle-line-height-m: 1;
+
+    --subtitle-size-l: 70px;
+    --subtitle-line-height-l: 1;
+
+    --title-size-m: 140px;
+    --title-line-height-m: 1;
+
+    --title-size-l: 253px;
+    --title-line-height-l: 1;
+
+    --base-font: var(--text-size-m)/var(--line-height-m) "GraphikLCG", sans-serif;
+    --secondary-font: var(--text-size-m)/var(--line-height-m) "Montserrat", sans-serif;
+}
