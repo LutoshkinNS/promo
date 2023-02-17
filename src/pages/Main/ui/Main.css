@@ -31,3 +31,15 @@
     margin-bottom: 50px;
 }
 
+.parallax-text {
+    position: absolute;
+    font-family: var(--secondary-font);
+    top: 15%;
+    left: -10%;
+    font-weight: 900;
+    font-size: 480px;
+    line-height: 1.4;
+    color: var(--primary-text-color);
+    opacity: 0.05;
+}
+

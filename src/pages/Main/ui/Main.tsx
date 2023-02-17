@@ -1,12 +1,13 @@
 import clsx from "clsx";
 import { Layout } from "widgets/Layout";
-import { Mousewheel, Navigation, Pagination } from "swiper";
+import { Mousewheel, Navigation, Pagination, Parallax } from "swiper";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { PreviewBlock } from "widgets/PreviewBlock";
 import YearOldIcon from "shared/assets/img/year-old-icon.png";
 import "./Main.css";
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/parallax";
 import { MainSlideBlock } from "widgets/MainSlideBlock";
 import { Subtitle } from "shared/ui/Subtitle";
 import { TitleWithTextBlock } from "widgets/TitleWithTextBlock";
@@ -23,7 +24,7 @@ export const Main = (props: MainProps) => {
     const { className } = props;
     const [lastVerticalSlide, setLastVerticalSlide] = useState<boolean>(false);
     const [lastHorizontalSlide, setLastHorizontalSlide] =
-        useState<boolean>(true);
+        useState<boolean>(false);
 
     console.log("lastHorizontalSlide", lastHorizontalSlide);
 
@@ -50,9 +51,6 @@ export const Main = (props: MainProps) => {
         <Layout>
             <Swiper
                 direction="vertical"
-                pagination={{
-                    clickable: true,
-                }}
                 navigation={
                     !lastVerticalSlide
                         ? {
@@ -60,27 +58,42 @@ export const Main = (props: MainProps) => {
                           }
                         : false
                 }
-                mousewheel={lastHorizontalSlide}
+                mousewheel={false}
                 modules={[Mousewheel, Navigation]}
                 className="main-swiper-vertical"
                 onSlideChange={handleOnVerticalScroll}
             >
                 <SwiperSlide className="slide">
                     <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
+                    <span className="parallax-bg parallax-text">
+                        33&nbsp;года&nbsp;33&nbsp;года
+                    </span>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Swiper
+                        parallax
                         direction="horizontal"
                         spaceBetween={50}
                         slidesPerView={1}
                         pagination={{
                             clickable: true,
                         }}
-                        mousewheel
-                        modules={[Mousewheel, Pagination]}
-                        className="mySwiper2 swiper-v"
+                        mousewheel={
+                            {
+                                // forceToAxis: true,
+                                // releaseOnEdges: true,
+                            }
+                        }
+                        modules={[Mousewheel, Pagination, Parallax]}
+                        // className="mySwiper2 swiper-v"
                         onSlideChange={handleOnHorizontalScroll}
                     >
+                        <span
+                            className="parallax-bg parallax-text"
+                            data-swiper-parallax="-20%"
+                        >
+                            33&nbsp;года&nbsp;33&nbsp;года
+                        </span>
                         <SwiperSlide>
                             <MainSlideBlock title="1990">
                                 <Subtitle className="preview-text" size="l">

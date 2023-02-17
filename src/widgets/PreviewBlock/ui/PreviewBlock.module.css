@@ -5,6 +5,8 @@
     height: 100%;
     flex-wrap: wrap;
     overflow: hidden;
+    position: relative;
+    z-index: 5;
 }
 
 .textBlock {
