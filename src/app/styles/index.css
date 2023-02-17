@@ -8,6 +8,10 @@
     font: var(--base-font);
 }
 
+body {
+    font-size: var(--base-font-size);
+}
+
 *, *:after, *:before {
     box-sizing: border-box;
 }

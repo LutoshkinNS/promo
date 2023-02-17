@@ -3,7 +3,7 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
     overflow: hidden;
     position: relative;
     z-index: 5;
@@ -11,7 +11,7 @@
 
 .textBlock {
     max-width: 777px;
-    flex-shrink: 1;
+    flex-shrink: 0;
 }
 
 .title {
@@ -32,3 +32,4 @@
     max-width: 100%;
     background: radial-gradient(circle, rgba(255,255,255,0.39539565826330536) 0%, rgba(255,255,255,0) 60%);
 }
+

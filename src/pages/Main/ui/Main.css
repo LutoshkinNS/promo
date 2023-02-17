@@ -27,6 +27,10 @@
     bottom: 20vh !important;
 }
 
+.swiper-pagination-bullet-active {
+    background-color: var(--bg-light)!important;
+}
+
 .preview-text {
     margin-bottom: 50px;
 }
@@ -41,5 +45,10 @@
     line-height: 1.4;
     color: var(--primary-text-color);
     opacity: 0.05;
+}
+
+.horizontal-slider {
+    position: relative;
+    z-index: 10;
 }
 

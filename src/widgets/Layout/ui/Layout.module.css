@@ -8,6 +8,10 @@
     height: var(--header-height);
     border-bottom: 1px solid var(--light);
     background-color: var(--bg-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 10%;
 }
 
 .main {

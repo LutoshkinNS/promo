@@ -23,19 +23,19 @@ export interface MainProps {
 export const Main = (props: MainProps) => {
     const { className } = props;
     const [lastVerticalSlide, setLastVerticalSlide] = useState<boolean>(false);
-    const [lastHorizontalSlide, setLastHorizontalSlide] =
-        useState<boolean>(false);
+    const [allowVerticalNext, setAllowVerticalNext] = useState(true);
+    const [allowVerticalPrev, setAllowVerticalPrev] = useState(true);
 
-    console.log("lastHorizontalSlide", lastHorizontalSlide);
-
-    const checkLastSlide = (swiper: any, callback: any) => {
+    const checkLastSlide = (swiper: any, callback?: any) => {
         const { activeIndex } = swiper;
         const slidesLength = swiper.slides.length - 1;
-        console.log(activeIndex, slidesLength);
         if (activeIndex === slidesLength) {
-            callback(true);
+            setAllowVerticalPrev(false);
+        } else if (activeIndex === 1) {
+            setAllowVerticalNext(false);
         } else {
-            callback(false);
+            setAllowVerticalNext(true);
+            setAllowVerticalPrev(true);
         }
     };
 
@@ -44,7 +44,7 @@ export const Main = (props: MainProps) => {
     };
 
     const handleOnHorizontalScroll = (swiper: any) => {
-        checkLastSlide(swiper, setLastHorizontalSlide);
+        checkLastSlide(swiper);
     };
 
     return (
@@ -58,7 +58,9 @@ export const Main = (props: MainProps) => {
                           }
                         : false
                 }
-                mousewheel={false}
+                // mousewheel
+                // allowSlideNext={allowVerticalNext}
+                // allowSlidePrev={allowVerticalPrev}
                 modules={[Mousewheel, Navigation]}
                 className="main-swiper-vertical"
                 onSlideChange={handleOnVerticalScroll}
@@ -78,14 +80,9 @@ export const Main = (props: MainProps) => {
                         pagination={{
                             clickable: true,
                         }}
-                        mousewheel={
-                            {
-                                // forceToAxis: true,
-                                // releaseOnEdges: true,
-                            }
-                        }
+                        mousewheel
                         modules={[Mousewheel, Pagination, Parallax]}
-                        // className="mySwiper2 swiper-v"
+                        className="horizontal-slider"
                         onSlideChange={handleOnHorizontalScroll}
                     >
                         <span
@@ -129,80 +126,94 @@ export const Main = (props: MainProps) => {
                         ))}
                     </Swiper>
                 </SwiperSlide>
-                {/* <SwiperSlide> */}
-                {/*    <Swiper */}
-                {/*        direction="horizontal" */}
-                {/*        spaceBetween={50} */}
-                {/*        pagination={{ */}
-                {/*            clickable: true, */}
-                {/*        }} */}
-                {/*        mousewheel */}
-                {/*        modules={[Mousewheel, Pagination]} */}
-                {/*        className="mySwiper2 swiper-v" */}
-                {/*    > */}
-                {/*        {slidesData[1].map((item) => ( */}
-                {/*            <SwiperSlide key={item.rightText.title}> */}
-                {/*                <MainSlideBlock title={item.slideTitle}> */}
-                {/*                    <ThreeColumns */}
-                {/*                        img={ */}
-                {/*                            <img */}
-                {/*                                src={item.imgSrc} */}
-                {/*                                alt={item.rightText.title} */}
-                {/*                            /> */}
-                {/*                        } */}
-                {/*                    > */}
-                {/*                        <TitleWithTextBlock */}
-                {/*                            align="right" */}
-                {/*                            title={item.leftText.title} */}
-                {/*                            text={item.leftText.text} */}
-                {/*                        /> */}
-                {/*                        <TitleWithTextBlock */}
-                {/*                            title={item.rightText.title} */}
-                {/*                            text={item.rightText.text} */}
-                {/*                        /> */}
-                {/*                    </ThreeColumns> */}
-                {/*                </MainSlideBlock> */}
-                {/*            </SwiperSlide> */}
-                {/*        ))} */}
-                {/*    </Swiper> */}
-                {/* </SwiperSlide> */}
-                {/* <SwiperSlide> */}
-                {/*    <Swiper */}
-                {/*        direction="horizontal" */}
-                {/*        spaceBetween={50} */}
-                {/*        pagination={{ */}
-                {/*            clickable: true, */}
-                {/*        }} */}
-                {/*        mousewheel */}
-                {/*        modules={[Mousewheel, Pagination]} */}
-                {/*        className="mySwiper2 swiper-v" */}
-                {/*    > */}
-                {/*        {slidesData[2].map((item) => ( */}
-                {/*            <SwiperSlide key={item.rightText.title}> */}
-                {/*                <MainSlideBlock title={item.slideTitle}> */}
-                {/*                    <ThreeColumns */}
-                {/*                        img={ */}
-                {/*                            <img */}
-                {/*                                src={item.imgSrc} */}
-                {/*                                alt={item.rightText.title} */}
-                {/*                            /> */}
-                {/*                        } */}
-                {/*                    > */}
-                {/*                        <TitleWithTextBlock */}
-                {/*                            align="right" */}
-                {/*                            title={item.leftText.title} */}
-                {/*                            text={item.leftText.text} */}
-                {/*                        /> */}
-                {/*                        <TitleWithTextBlock */}
-                {/*                            title={item.rightText.title} */}
-                {/*                            text={item.rightText.text} */}
-                {/*                        /> */}
-                {/*                    </ThreeColumns> */}
-                {/*                </MainSlideBlock> */}
-                {/*            </SwiperSlide> */}
-                {/*        ))} */}
-                {/*    </Swiper> */}
-                {/* </SwiperSlide> */}
+                <SwiperSlide>
+                    <Swiper
+                        parallax
+                        direction="horizontal"
+                        spaceBetween={50}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        mousewheel
+                        modules={[Mousewheel, Pagination]}
+                        className="mySwiper2 swiper-v"
+                    >
+                        <span
+                            className="parallax-bg parallax-text"
+                            data-swiper-parallax="-20%"
+                        >
+                            33&nbsp;года&nbsp;33&nbsp;года
+                        </span>
+                        {slidesData[1].map((item) => (
+                            <SwiperSlide key={item.rightText.title}>
+                                <MainSlideBlock title={item.slideTitle}>
+                                    <ThreeColumns
+                                        img={
+                                            <img
+                                                src={item.imgSrc}
+                                                alt={item.rightText.title}
+                                            />
+                                        }
+                                    >
+                                        <TitleWithTextBlock
+                                            align="right"
+                                            title={item.leftText.title}
+                                            text={item.leftText.text}
+                                        />
+                                        <TitleWithTextBlock
+                                            title={item.rightText.title}
+                                            text={item.rightText.text}
+                                        />
+                                    </ThreeColumns>
+                                </MainSlideBlock>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <Swiper
+                        parallax
+                        direction="horizontal"
+                        spaceBetween={50}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        mousewheel
+                        modules={[Mousewheel, Pagination]}
+                        className="mySwiper2 swiper-v"
+                    >
+                        <span
+                            className="parallax-bg parallax-text"
+                            data-swiper-parallax="-20%"
+                        >
+                            33&nbsp;года&nbsp;33&nbsp;года
+                        </span>
+                        {slidesData[2].map((item) => (
+                            <SwiperSlide key={item.rightText.title}>
+                                <MainSlideBlock title={item.slideTitle}>
+                                    <ThreeColumns
+                                        img={
+                                            <img
+                                                src={item.imgSrc}
+                                                alt={item.rightText.title}
+                                            />
+                                        }
+                                    >
+                                        <TitleWithTextBlock
+                                            align="right"
+                                            title={item.leftText.title}
+                                            text={item.leftText.text}
+                                        />
+                                        <TitleWithTextBlock
+                                            title={item.rightText.title}
+                                            text={item.rightText.text}
+                                        />
+                                    </ThreeColumns>
+                                </MainSlideBlock>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
+                </SwiperSlide>
                 <SwiperSlide>
                     <FinalSlide />
                 </SwiperSlide>
