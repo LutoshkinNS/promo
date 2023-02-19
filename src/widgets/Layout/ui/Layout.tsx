@@ -1,7 +1,8 @@
-import clsx from "clsx";
-import { ReactNode } from "react";
-import Logo from "shared/assets/img/logo/logo.svg?url";
-import s from "./Layout.module.css";
+import clsx from 'clsx';
+import { ReactNode } from 'react';
+import Logo from 'shared/assets/img/logo/logo.svg?url';
+import { mobile } from 'shared/libs';
+import s from './Layout.module.css';
 
 export interface LayoutProps {
     className?: string;
@@ -11,12 +12,16 @@ export interface LayoutProps {
 export const Layout = (props: LayoutProps) => {
     const { className, children } = props;
 
+    const isMobile = mobile();
+
     return (
         <div className={s.layout}>
-            <header className={s.header}>
-                <img src={Logo} alt="" />
-                <button type="button">Интернет банк</button>
-            </header>
+            {!isMobile ? (
+                <header className={s.header}>
+                    <img src={Logo} alt="" />
+                    <button type="button">Интернет банк</button>
+                </header>
+            ) : null}
             <main className={s.main}>{children}</main>
         </div>
     );

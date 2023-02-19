@@ -1,20 +1,28 @@
-import clsx from "clsx";
-import { Layout } from "widgets/Layout";
-import { Mousewheel, Navigation, Pagination, Parallax } from "swiper";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { PreviewBlock } from "widgets/PreviewBlock";
-import YearOldIcon from "shared/assets/img/year-old-icon.png";
-import "./Main.css";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/parallax";
-import { MainSlideBlock } from "widgets/MainSlideBlock";
-import { Subtitle } from "shared/ui/Subtitle";
-import { TitleWithTextBlock } from "widgets/TitleWithTextBlock";
-import { ThreeColumns } from "widgets/ThreeColumns";
-import { useState } from "react";
-import { slidesData } from "shared/config/slidesData";
-import { FinalSlide } from "widgets/FinalSlide";
+import clsx from 'clsx';
+import { Layout } from 'widgets/Layout';
+import {
+    Mousewheel,
+    Navigation,
+    Pagination,
+    Parallax,
+    Scrollbar,
+} from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { PreviewBlock } from 'widgets/PreviewBlock';
+import YearOldIcon from 'shared/assets/img/year-old-icon.png';
+import './Main.css';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/parallax';
+import { MainSlideBlock } from 'widgets/MainSlideBlock';
+import { Subtitle } from 'shared/ui/Subtitle';
+import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
+import { ThreeColumns } from 'widgets/ThreeColumns';
+import { useState } from 'react';
+import { slidesData } from 'shared/config/slidesData';
+import { FinalSlide } from 'widgets/FinalSlide';
+import { mobile } from 'shared/libs';
+import { PaginationOptions } from 'swiper/types';
 
 export interface MainProps {
     className?: string;
@@ -25,6 +33,7 @@ export const Main = (props: MainProps) => {
     const [lastVerticalSlide, setLastVerticalSlide] = useState<boolean>(false);
     const [allowVerticalNext, setAllowVerticalNext] = useState(true);
     const [allowVerticalPrev, setAllowVerticalPrev] = useState(true);
+    const isMobile = mobile();
 
     const checkLastSlide = (swiper: any, callback?: any) => {
         const { activeIndex } = swiper;
@@ -45,6 +54,16 @@ export const Main = (props: MainProps) => {
 
     const handleOnHorizontalScroll = (swiper: any) => {
         checkLastSlide(swiper);
+    };
+
+    const mobilePagination: PaginationOptions = {
+        clickable: true,
+        renderBullet(index, classN) {
+            const date = slidesData[0][index]
+                ? slidesData[0][index].slideTitle
+                : '';
+            return `<span class="${classN} mobile-pagination">${date}</span>`;
+        },
     };
 
     return (
@@ -77,11 +96,16 @@ export const Main = (props: MainProps) => {
                         direction="horizontal"
                         spaceBetween={50}
                         slidesPerView={1}
-                        pagination={{
-                            clickable: true,
-                        }}
+                        pagination={
+                            !isMobile
+                                ? {
+                                      clickable: true,
+                                  }
+                                : mobilePagination
+                        }
                         mousewheel
-                        modules={[Mousewheel, Pagination, Parallax]}
+                        scrollbar
+                        modules={[Mousewheel, Pagination, Parallax, Scrollbar]}
                         className="horizontal-slider"
                         onSlideChange={handleOnHorizontalScroll}
                     >
@@ -92,38 +116,38 @@ export const Main = (props: MainProps) => {
                             33&nbsp;года&nbsp;33&nbsp;года
                         </span>
                         <SwiperSlide>
-                            <MainSlideBlock title="1990">
+                            <MainSlideBlock title={slidesData[0][0].slideTitle}>
                                 <Subtitle className="preview-text" size="l">
-                                    С каждый новым годом развиваемся не только
-                                    мы, а еще индустрия мобильных телефонов.
-                                    Вспомним вместе с чего все начиналось?
+                                    {slidesData[0][0].leftText.text}
                                 </Subtitle>
                             </MainSlideBlock>
                         </SwiperSlide>
-                        {slidesData[0].map((item) => (
-                            <SwiperSlide key={item.rightText.title}>
-                                <MainSlideBlock title={item.slideTitle}>
-                                    <ThreeColumns
-                                        img={
-                                            <img
-                                                src={item.imgSrc}
-                                                alt={item.rightText.title}
+                        {slidesData[0].map((item, idx) => {
+                            return idx !== 0 ? (
+                                <SwiperSlide key={item.rightText.title}>
+                                    <MainSlideBlock title={item.slideTitle}>
+                                        <ThreeColumns
+                                            img={
+                                                <img
+                                                    src={item.imgSrc}
+                                                    alt={item.rightText.title}
+                                                />
+                                            }
+                                        >
+                                            <TitleWithTextBlock
+                                                align="right"
+                                                title={item.leftText.title}
+                                                text={item.leftText.text}
                                             />
-                                        }
-                                    >
-                                        <TitleWithTextBlock
-                                            align="right"
-                                            title={item.leftText.title}
-                                            text={item.leftText.text}
-                                        />
-                                        <TitleWithTextBlock
-                                            title={item.rightText.title}
-                                            text={item.rightText.text}
-                                        />
-                                    </ThreeColumns>
-                                </MainSlideBlock>
-                            </SwiperSlide>
-                        ))}
+                                            <TitleWithTextBlock
+                                                title={item.rightText.title}
+                                                text={item.rightText.text}
+                                            />
+                                        </ThreeColumns>
+                                    </MainSlideBlock>
+                                </SwiperSlide>
+                            ) : null;
+                        })}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>

@@ -10,10 +10,12 @@
 .swiper-button-next {
     position: absolute;
     bottom: 4vh;
-    left: calc(50% - 40px);
-    height: 80px;
-    width: 80px;
+    left: calc(50% - 2.5rem);
+    height: 5rem;
+    width: 5rem;
     background-image: url("shared/assets/img/arrow-down.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
     z-index: 10;
     cursor: pointer;
 }
@@ -38,11 +40,11 @@
 .parallax-text {
     position: absolute;
     font-family: var(--secondary-font);
-    top: 15%;
+    top: calc(50% - var(--parallax-text-size)/2);
     left: -10%;
     font-weight: 900;
-    font-size: 480px;
-    line-height: 1.4;
+    font-size: var(--parallax-text-size);
+    line-height:var(--parallax-text-line-height);
     color: var(--primary-text-color);
     opacity: 0.05;
 }
@@ -50,5 +52,47 @@
 .horizontal-slider {
     position: relative;
     z-index: 10;
+}
+
+/* --bp-400 */
+@media (max-width: 400px) {
+    .swiper-pagination {
+        bottom: 20vh !important;
+    }
+
+    :root {
+        --swiper-pagination-top: 20px;
+    }
+
+    .swiper-pagination {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        overflow: scroll;
+        gap: 20px;
+        height: 70px;
+    }
+
+    .swiper-pagination .mobile-pagination {
+        width: 200px;
+        font: var(--secondary-font);
+        font-size: var(--pagination-size);
+        color: transparent;
+        -webkit-text-stroke: 2px var(--primary-text-color);
+        text-stroke: 2px var(--primary-text-color);
+        background: none;
+        border-radius: 0%;
+        height: auto;
+        opacity: 1;
+    }
+
+    .swiper-pagination .swiper-pagination-bullet-active {
+        font-size: var(--pagination-size-active);
+        background-color: transparent !important;
+    }
+
+    .swiper-pagination::-webkit-scrollbar {
+        width: 0;
+    }
 }
 

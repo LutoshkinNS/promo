@@ -8,11 +8,23 @@
     font: var(--base-font);
 }
 
-body {
-    font-size: var(--base-font-size);
+html {
+    font-size: 16px;
 }
 
 *, *:after, *:before {
     box-sizing: border-box;
+}
+
+@media (max-width: 1250px) {
+    html {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 700px) {
+    html {
+        font-size: 12px;
+    }
 }
 

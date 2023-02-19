@@ -1,28 +1,63 @@
 :root {
-    --header-height: 84px;
-    --content-height: calc(100vh - 84px);
+    --header-height: 10vh;
+    --content-height: calc(100vh - var(--header-height));
 
     --base-font-size: 16;
 
-    --text-size-m: calc(18 / var(--base-font-size))rem;
+    --text-size-m: calc(18/var(--base-font-size)*1rem);
     --line-height-m: 1.4;
 
-    --text-size-l: calc(20 / var(--base-font-size))rem;
+    --text-size-l: calc(20/var(--base-font-size)*1rem);
     --line-height-l: 1.4;
 
-    --subtitle-size-m: calc(34 / var(--base-font-size))rem;
+    --subtitle-size-m: calc(34/var(--base-font-size)*1rem);
     --subtitle-line-height-m: 1;
 
-    --subtitle-size-l: calc(70 / var(--base-font-size))rem;
+    --subtitle-size-l: calc(70/var(--base-font-size)*1rem);
     --subtitle-line-height-l: 1;
 
-    --title-size-m: calc(140 / var(--base-font-size))rem;
+    --title-size-m: calc(140/var(--base-font-size)*1rem);
     --title-line-height-m: 1;
 
-    --title-size-l: calc(253 / var(--base-font-size))rem;
+    --title-size-l: calc(253/var(--base-font-size)*1rem);
     --title-line-height-l: 1;
+
+    --pagination-size: calc(40/var(--base-font-size)*1rem);
+    --pagination-size-active: calc(93/var(--base-font-size)*1rem);
+    --pagination-line-height: 1;
+
+    --parallax-text-size: calc(480/var(--base-font-size)*1rem);
+    --parallax-text-line-height: 1;
 
     --base-font: var(--text-size-m)/var(--line-height-m) "GraphikLCG", sans-serif;
     --secondary-font: var(--text-size-m)/var(--line-height-m) "Montserrat", sans-serif;
+
+    /* breakpoints */
+    --bp-400: 400px;
+    --bp-600: 600px;
+    --bp-1080: 1080px;
+    --bp-1250: 1250px;
+}
+
+/* --bp-1080 */
+@media (max-width: 1080px) {
+    :root {
+        --subtitle-size-l: calc(60/var(--base-font-size)*1rem);
+        --subtitle-line-height-l: 1;
+
+        --parallax-text-size: calc(400/var(--base-font-size)*1rem);
+    }
+}
+
+/* --bp-400 */
+@media (max-width: 400px) {
+    :root {
+        --header-height: 0vh;
+
+        --subtitle-size-l: calc(50/var(--base-font-size)*1rem);
+        --subtitle-line-height-l: 1;
+
+        --parallax-text-size: calc(200/var(--base-font-size)*1rem);
+    }
 }
 

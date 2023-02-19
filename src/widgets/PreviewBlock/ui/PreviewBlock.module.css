@@ -3,10 +3,10 @@
     align-items: center;
     justify-content: center;
     height: 100%;
-    /*flex-wrap: wrap;*/
     overflow: hidden;
     position: relative;
     z-index: 5;
+    padding-bottom: 15vh;
 }
 
 .textBlock {
@@ -25,11 +25,25 @@
 .imgBlock {
     max-height: 507px;
     max-width: 666px;
-    flex-shrink: 2;
+    min-width: 250px;
 }
 
 .img {
     max-width: 100%;
     background: radial-gradient(circle, rgba(255,255,255,0.39539565826330536) 0%, rgba(255,255,255,0) 60%);
+}
+
+/* --bp-1250 */
+@media (max-width: 1250px) {
+    .textBlock {
+        flex-shrink: 1;
+    }
+}
+
+/* --bp-600 */
+@media (max-width: 600px) {
+    .PreviewBlock {
+        flex-wrap: wrap;
+    }
 }
 
