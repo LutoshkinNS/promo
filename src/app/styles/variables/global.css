@@ -23,7 +23,7 @@
     --title-line-height-l: 1;
 
     --pagination-size: calc(40/var(--base-font-size)*1rem);
-    --pagination-size-active: calc(93/var(--base-font-size)*1rem);
+    --pagination-size-active: calc(88/var(--base-font-size)*1rem);
     --pagination-line-height: 1;
 
     --parallax-text-size: calc(480/var(--base-font-size)*1rem);

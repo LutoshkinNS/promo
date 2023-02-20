@@ -20,3 +20,11 @@
 .text {
     text-align: center;
 }
+
+/* --bp-400 */
+@media (max-width: 400px) {
+    .MainSlideBlock {
+        padding-top: 30px;
+        align-items: flex-start;
+    }
+}

@@ -24,5 +24,20 @@
     z-index: 0;
 }
 
-.img {
+/* --bp-400 */
+@media (max-width: 400px) {
+    .ThreeColumns {
+        height: 100%;
+    }
+
+    .children {
+        flex-direction: column;
+        justify-content: flex-start;
+        gap: 40px;
+        height: 100%;
+    }
+
+    .imgContainer {
+        position: static;
+    }
 }

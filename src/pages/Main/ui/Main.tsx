@@ -34,6 +34,7 @@ export const Main = (props: MainProps) => {
     const [allowVerticalNext, setAllowVerticalNext] = useState(true);
     const [allowVerticalPrev, setAllowVerticalPrev] = useState(true);
     const isMobile = mobile();
+    console.log(isMobile);
 
     const checkLastSlide = (swiper: any, callback?: any) => {
         const { activeIndex } = swiper;
@@ -68,180 +69,181 @@ export const Main = (props: MainProps) => {
 
     return (
         <Layout>
+            {/* <Swiper */}
+            {/*    direction="vertical" */}
+            {/*    navigation={ */}
+            {/*        !lastVerticalSlide */}
+            {/*            ? { */}
+            {/*                  enabled: true, */}
+            {/*              } */}
+            {/*            : false */}
+            {/*    } */}
+            {/*    // mousewheel */}
+            {/*    // allowSlideNext={allowVerticalNext} */}
+            {/*    // allowSlidePrev={allowVerticalPrev} */}
+            {/*    scrollbar */}
+            {/*    modules={[Mousewheel, Navigation, Scrollbar]} */}
+            {/*    className="main-swiper-vertical" */}
+            {/*    onSlideChange={handleOnVerticalScroll} */}
+            {/* > */}
+            {/* <SwiperSlide className="slide"> */}
+            <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
+            <span className="parallax-bg parallax-text">
+                33&nbsp;года&nbsp;33&nbsp;года
+            </span>
+            {/* </SwiperSlide> */}
+            {/* <SwiperSlide> */}
             <Swiper
-                direction="vertical"
-                navigation={
-                    !lastVerticalSlide
+                parallax
+                direction="horizontal"
+                spaceBetween={50}
+                slidesPerView={1}
+                pagination={
+                    !isMobile
                         ? {
-                              enabled: true,
+                              clickable: true,
                           }
-                        : false
+                        : mobilePagination
                 }
-                // mousewheel
-                // allowSlideNext={allowVerticalNext}
-                // allowSlidePrev={allowVerticalPrev}
-                modules={[Mousewheel, Navigation]}
-                className="main-swiper-vertical"
-                onSlideChange={handleOnVerticalScroll}
+                mousewheel={{ releaseOnEdges: true }}
+                scrollbar
+                modules={[Mousewheel, Pagination, Parallax, Scrollbar]}
+                className="horizontal-slider"
+                onSlideChange={handleOnHorizontalScroll}
             >
-                <SwiperSlide className="slide">
-                    <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
-                    <span className="parallax-bg parallax-text">
-                        33&nbsp;года&nbsp;33&nbsp;года
-                    </span>
-                </SwiperSlide>
+                <span
+                    className="parallax-bg parallax-text"
+                    data-swiper-parallax="-20%"
+                >
+                    33&nbsp;года&nbsp;33&nbsp;года
+                </span>
                 <SwiperSlide>
-                    <Swiper
-                        parallax
-                        direction="horizontal"
-                        spaceBetween={50}
-                        slidesPerView={1}
-                        pagination={
-                            !isMobile
-                                ? {
-                                      clickable: true,
-                                  }
-                                : mobilePagination
-                        }
-                        mousewheel
-                        scrollbar
-                        modules={[Mousewheel, Pagination, Parallax, Scrollbar]}
-                        className="horizontal-slider"
-                        onSlideChange={handleOnHorizontalScroll}
-                    >
-                        <span
-                            className="parallax-bg parallax-text"
-                            data-swiper-parallax="-20%"
-                        >
-                            33&nbsp;года&nbsp;33&nbsp;года
-                        </span>
-                        <SwiperSlide>
-                            <MainSlideBlock title={slidesData[0][0].slideTitle}>
-                                <Subtitle className="preview-text" size="l">
-                                    {slidesData[0][0].leftText.text}
-                                </Subtitle>
+                    <MainSlideBlock title={slidesData[0][0].slideTitle}>
+                        <Subtitle className="preview-text" size="l">
+                            {slidesData[0][0].leftText.text}
+                        </Subtitle>
+                    </MainSlideBlock>
+                </SwiperSlide>
+                {slidesData[0].map((item, idx) => {
+                    return idx !== 0 ? (
+                        <SwiperSlide key={item.rightText.title}>
+                            <MainSlideBlock title={item.slideTitle}>
+                                <ThreeColumns
+                                    img={
+                                        <img
+                                            src={item.imgSrc}
+                                            alt={item.rightText.title}
+                                        />
+                                    }
+                                >
+                                    <TitleWithTextBlock
+                                        align="right"
+                                        title={item.leftText.title}
+                                        text={item.leftText.text}
+                                    />
+                                    <TitleWithTextBlock
+                                        title={item.rightText.title}
+                                        text={item.rightText.text}
+                                    />
+                                </ThreeColumns>
                             </MainSlideBlock>
                         </SwiperSlide>
-                        {slidesData[0].map((item, idx) => {
-                            return idx !== 0 ? (
-                                <SwiperSlide key={item.rightText.title}>
-                                    <MainSlideBlock title={item.slideTitle}>
-                                        <ThreeColumns
-                                            img={
-                                                <img
-                                                    src={item.imgSrc}
-                                                    alt={item.rightText.title}
-                                                />
-                                            }
-                                        >
-                                            <TitleWithTextBlock
-                                                align="right"
-                                                title={item.leftText.title}
-                                                text={item.leftText.text}
-                                            />
-                                            <TitleWithTextBlock
-                                                title={item.rightText.title}
-                                                text={item.rightText.text}
-                                            />
-                                        </ThreeColumns>
-                                    </MainSlideBlock>
-                                </SwiperSlide>
-                            ) : null;
-                        })}
-                    </Swiper>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Swiper
-                        parallax
-                        direction="horizontal"
-                        spaceBetween={50}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        mousewheel
-                        modules={[Mousewheel, Pagination]}
-                        className="mySwiper2 swiper-v"
-                    >
-                        <span
-                            className="parallax-bg parallax-text"
-                            data-swiper-parallax="-20%"
-                        >
-                            33&nbsp;года&nbsp;33&nbsp;года
-                        </span>
-                        {slidesData[1].map((item) => (
-                            <SwiperSlide key={item.rightText.title}>
-                                <MainSlideBlock title={item.slideTitle}>
-                                    <ThreeColumns
-                                        img={
-                                            <img
-                                                src={item.imgSrc}
-                                                alt={item.rightText.title}
-                                            />
-                                        }
-                                    >
-                                        <TitleWithTextBlock
-                                            align="right"
-                                            title={item.leftText.title}
-                                            text={item.leftText.text}
-                                        />
-                                        <TitleWithTextBlock
-                                            title={item.rightText.title}
-                                            text={item.rightText.text}
-                                        />
-                                    </ThreeColumns>
-                                </MainSlideBlock>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <Swiper
-                        parallax
-                        direction="horizontal"
-                        spaceBetween={50}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        mousewheel
-                        modules={[Mousewheel, Pagination]}
-                        className="mySwiper2 swiper-v"
-                    >
-                        <span
-                            className="parallax-bg parallax-text"
-                            data-swiper-parallax="-20%"
-                        >
-                            33&nbsp;года&nbsp;33&nbsp;года
-                        </span>
-                        {slidesData[2].map((item) => (
-                            <SwiperSlide key={item.rightText.title}>
-                                <MainSlideBlock title={item.slideTitle}>
-                                    <ThreeColumns
-                                        img={
-                                            <img
-                                                src={item.imgSrc}
-                                                alt={item.rightText.title}
-                                            />
-                                        }
-                                    >
-                                        <TitleWithTextBlock
-                                            align="right"
-                                            title={item.leftText.title}
-                                            text={item.leftText.text}
-                                        />
-                                        <TitleWithTextBlock
-                                            title={item.rightText.title}
-                                            text={item.rightText.text}
-                                        />
-                                    </ThreeColumns>
-                                </MainSlideBlock>
-                            </SwiperSlide>
-                        ))}
-                    </Swiper>
-                </SwiperSlide>
-                <SwiperSlide>
-                    <FinalSlide />
-                </SwiperSlide>
+                    ) : null;
+                })}
             </Swiper>
+            {/* </SwiperSlide> */}
+            {/* <SwiperSlide> */}
+            <Swiper
+                parallax
+                direction="horizontal"
+                spaceBetween={50}
+                pagination={{
+                    clickable: true,
+                }}
+                mousewheel
+                modules={[Mousewheel, Pagination]}
+                className="mySwiper2 swiper-v"
+            >
+                <span
+                    className="parallax-bg parallax-text"
+                    data-swiper-parallax="-20%"
+                >
+                    33&nbsp;года&nbsp;33&nbsp;года
+                </span>
+                {slidesData[1].map((item) => (
+                    <SwiperSlide key={item.rightText.title}>
+                        <MainSlideBlock title={item.slideTitle}>
+                            <ThreeColumns
+                                img={
+                                    <img
+                                        src={item.imgSrc}
+                                        alt={item.rightText.title}
+                                    />
+                                }
+                            >
+                                <TitleWithTextBlock
+                                    align="right"
+                                    title={item.leftText.title}
+                                    text={item.leftText.text}
+                                />
+                                <TitleWithTextBlock
+                                    title={item.rightText.title}
+                                    text={item.rightText.text}
+                                />
+                            </ThreeColumns>
+                        </MainSlideBlock>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            {/* </SwiperSlide> */}
+            {/* <SwiperSlide> */}
+            <Swiper
+                parallax
+                direction="horizontal"
+                spaceBetween={50}
+                pagination={{
+                    clickable: true,
+                }}
+                mousewheel
+                modules={[Mousewheel, Pagination]}
+                className="mySwiper2 swiper-v"
+            >
+                <span
+                    className="parallax-bg parallax-text"
+                    data-swiper-parallax="-20%"
+                >
+                    33&nbsp;года&nbsp;33&nbsp;года
+                </span>
+                {slidesData[2].map((item) => (
+                    <SwiperSlide key={item.rightText.title}>
+                        <MainSlideBlock title={item.slideTitle}>
+                            <ThreeColumns
+                                img={
+                                    <img
+                                        src={item.imgSrc}
+                                        alt={item.rightText.title}
+                                    />
+                                }
+                            >
+                                <TitleWithTextBlock
+                                    align="right"
+                                    title={item.leftText.title}
+                                    text={item.leftText.text}
+                                />
+                                <TitleWithTextBlock
+                                    title={item.rightText.title}
+                                    text={item.rightText.text}
+                                />
+                            </ThreeColumns>
+                        </MainSlideBlock>
+                    </SwiperSlide>
+                ))}
+            </Swiper>
+            {/* </SwiperSlide> */}
+            {/* <SwiperSlide> */}
+            <FinalSlide />
+            {/* </SwiperSlide> */}
+            {/* </Swiper> */}
         </Layout>
     );
 };

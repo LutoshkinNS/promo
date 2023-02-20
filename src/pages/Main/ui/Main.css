@@ -22,7 +22,7 @@
 
 .swiper-horizontal .swiper-slide {
     padding-top: 10vh;
-    padding-bottom: calc(20vh);
+    padding-bottom: 20vh;
 }
 
 .swiper-pagination {
@@ -62,6 +62,11 @@
 
     :root {
         --swiper-pagination-top: 20px;
+    }
+
+    .swiper-horizontal .swiper-slide {
+        padding-top: 12vh;
+        padding-bottom: 15vh;
     }
 
     .swiper-pagination {

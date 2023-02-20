@@ -1,6 +1,6 @@
-import clsx from "clsx";
-import { ReactNode } from "react";
-import s from "./ThreeColumns.module.css";
+import clsx from 'clsx';
+import { ReactNode } from 'react';
+import s from './ThreeColumns.module.css';
 
 export interface ThreeColumnsProps {
     className?: string;
@@ -13,8 +13,8 @@ export const ThreeColumns = (props: ThreeColumnsProps) => {
 
     return (
         <div className={clsx(s.ThreeColumns, className)}>
-            <div className={s.imgContainer}>{img}</div>
             <div className={s.children}>{children}</div>
+            <div className={s.imgContainer}>{img}</div>
         </div>
     );
 };
