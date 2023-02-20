@@ -21,7 +21,17 @@
     align-items: center;
     bottom: 5px;
     left: -75px;
+    z-index: 1;
+}
+
+.bgImage {
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    right: 16%;
+    top: 15%;
     z-index: 0;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.39539565826330536) 0%, rgba(255, 255, 255, 0) 40%);
 }
 
 /* --bp-400 */
@@ -38,6 +48,8 @@
     }
 
     .imgContainer {
-        position: static;
+        position: absolute;
+        bottom: -60%;
+        z-index: 0;
     }
 }

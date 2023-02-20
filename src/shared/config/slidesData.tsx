@@ -10,6 +10,19 @@ import SamsungGalaxyNote from 'shared/assets/img/slides/samsung-galaxy-note.png'
 import HuaweiMate20Pro from 'shared/assets/img/slides/huawei-mate-20 pro.png';
 import Iphone11ProMax from 'shared/assets/img/slides/apple-iphone-11-pro-max.png';
 
+export interface SlideData {
+    slideTitle: string;
+    imgSrc: string;
+    leftText: {
+        title: string;
+        text: string;
+    };
+    rightText: {
+        title: string;
+        text: string;
+    };
+}
+
 export const slidesData = [
     [
         {

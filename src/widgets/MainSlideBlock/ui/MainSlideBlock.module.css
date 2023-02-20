@@ -7,7 +7,9 @@
     max-width: 1285px;
     margin: 0 auto;
     height: 100%;
-    background: radial-gradient(circle, rgba(255,255,255,0.39539565826330536) 0%, rgba(255,255,255,0) 40%);
+    width: 100%;
+    cursor: pointer;
+    /*background: radial-gradient(circle, rgba(255,255,255,0.39539565826330536) 0%, rgba(255,255,255,0) 40%);*/
 }
 
 .title {
@@ -26,5 +28,9 @@
     .MainSlideBlock {
         padding-top: 30px;
         align-items: flex-start;
+        max-width: 100%;
+        overflow-x: hidden;
+        overflow-y: scroll;
+        background: none;
     }
 }

@@ -14,7 +14,10 @@ export const ThreeColumns = (props: ThreeColumnsProps) => {
     return (
         <div className={clsx(s.ThreeColumns, className)}>
             <div className={s.children}>{children}</div>
-            <div className={s.imgContainer}>{img}</div>
+            <div className={s.imgContainer}>
+                <div className={s.bgImage} />
+                {img}
+            </div>
         </div>
     );
 };

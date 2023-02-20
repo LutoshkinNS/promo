@@ -8,23 +8,37 @@
     font: var(--base-font);
 }
 
+/*::-webkit-scrollbar {*/
+/*    width: 0;*/
+/*}*/
+
 html {
     font-size: 16px;
+    /*overflow-x: hidden;*/
 }
 
 *, *:after, *:before {
     box-sizing: border-box;
 }
 
+/* --bp-1250 */
 @media (max-width: 1250px) {
     html {
         font-size: 14px;
     }
 }
 
+/* --bp-700 */
 @media (max-width: 700px) {
     html {
         font-size: 12px;
+    }
+}
+
+/* --bp-400 */
+@media (max-width: 400px) {
+    #root {
+        /*height: 200vh;*/
     }
 }
 
