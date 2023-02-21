@@ -49,6 +49,17 @@
     }
 }
 
+/* --bp-500 */
+@media (max-width: 500px) {
+    :root {
+        --title-size-l: calc(200/var(--base-font-size)*1rem);
+        --title-line-height-l: 1;
+
+        --subtitle-size-l: calc(55/var(--base-font-size)*1rem);
+        --subtitle-line-height-l: 1;
+    }
+}
+
 /* --bp-400 */
 @media (max-width: 400px) {
     :root {

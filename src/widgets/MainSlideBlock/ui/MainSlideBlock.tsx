@@ -14,21 +14,18 @@ export interface MainSlideBlockProps {
 }
 
 export const MainSlideBlock = (props: MainSlideBlockProps) => {
-    const { className, title, children, onMouseEnter, onMouseLeave, ...other } =
-        props;
+    const { className, title, children, onMouseEnter, onMouseLeave } = props;
     const isMobile = mobile();
 
     return (
-        <Container>
-            <div
-                className={clsx(s.MainSlideBlock, className)}
-                onMouseOver={onMouseEnter}
-                onMouseOut={onMouseLeave}
-                {...other}
-            >
-                {!isMobile ? <Title className={s.title}>{title}</Title> : null}
-                {children}
-            </div>
-        </Container>
+        // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+        <div
+            className={clsx(s.MainSlideBlock, className)}
+            onMouseOver={onMouseEnter}
+            onMouseOut={onMouseLeave}
+        >
+            {!isMobile ? <Title className={s.title}>{title}</Title> : null}
+            {children}
+        </div>
     );
 };

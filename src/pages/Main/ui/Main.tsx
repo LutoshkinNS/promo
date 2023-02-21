@@ -16,7 +16,7 @@ import './Main.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/parallax';
-import { useRef, useState } from 'react';
+import { forwardRef, Ref, useRef, useState } from 'react';
 import { slidesData } from 'shared/config/slidesData';
 import { FinalSlide } from 'widgets/FinalSlide';
 import { HorizontalSlider } from 'widgets/Slider';
@@ -26,6 +26,9 @@ import { Subtitle } from 'shared/ui/Subtitle';
 import { ThreeColumns } from 'widgets/ThreeColumns';
 import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
 import { mobile } from 'shared/libs';
+import { PaginationOptions } from 'swiper/types';
+import { NavigationOptions } from 'swiper/types/modules/navigation';
+import { Container } from 'shared/ui/Container/Container';
 
 export interface MainProps {
     className?: string;
@@ -36,7 +39,30 @@ export const Main = (props: MainProps) => {
     const [allowVerticalNext, setAllowVerticalNext] = useState(true);
 
     const swiperRef = useRef<SwiperRef>();
+    const nextBtnRef = useRef<HTMLDivElement>(null);
     const isMobile = mobile();
+
+    const mobilePagination: PaginationOptions = {
+        clickable: true,
+        renderBullet(index, classN) {
+            const date = slidesData[0][index]
+                ? slidesData[0][index].slideTitle
+                : '';
+            return `<span class="${classN} mobile-pagination">${date}</span>`;
+        },
+    };
+
+    // eslint-disable-next-line react/no-unstable-nested-components
+    const NextBtn = () => (
+        // eslint-disable-next-line jsx-a11y/control-has-associated-label
+        <button
+            type="button"
+            className="slider-next-btn"
+            onClick={() => {
+                swiperRef.current?.swiper.slideNext();
+            }}
+        />
+    );
 
     return (
         <Layout>
@@ -44,43 +70,50 @@ export const Main = (props: MainProps) => {
                 onSwiper={(swiper) => {
                     swiperRef.current = { swiper };
                 }}
-                className="mySwiper2 swiper-v"
                 direction="vertical"
                 spaceBetween={50}
-                pagination={{
-                    clickable: true,
-                }}
-                mousewheel={{
-                    thresholdTime: 300,
-                }}
-                freeMode={{
-                    enabled: false,
-                    sticky: true,
-                }}
-                modules={[Pagination, Mousewheel, FreeMode]}
-                // onScroll={(swiper, event) => {
-                //     console.log('vert', swiper, event);
-                //     const isMatchNestedSwiper =
-                //         swiper.slides[swiper.activeIndex].children[0] &&
-                //         swiper.slides[swiper.activeIndex].children[0].matches(
-                //             '.swiper'
-                //         );
-                //     if (isMatchNestedSwiper) {
-                //         setTimeout(() => {
-                //             console.log('vert dis');
-                //             swiperRef.current?.swiper.mousewheel.disable();
-                //         }, 0);
-                //     }
+                className="vertical-slider"
+                // pagination={{
+                //     clickable: true,
                 // }}
+                mousewheel={
+                    !isMobile
+                        ? {
+                              thresholdTime: 300,
+                          }
+                        : false
+                }
+                allowTouchMove={false}
+                // freeMode={{
+                //     enabled: false,
+                //     sticky: true,
+                // }}
+                navigation={{
+                    enabled: true,
+                    // nextEl: nextBtnRef.current,
+                }}
+                modules={[Pagination, Mousewheel, Navigation]}
                 onToEdge={() => {
                     console.log('vert Edge en');
                     setTimeout(() => {
                         swiperRef.current?.swiper.mousewheel.enable();
                     }, 0);
                 }}
+                // onBeforeInit={(swiper) => {
+                //     console.log(swiper.params.navigation);
+                //     if (swiper.params.navigation) {
+                //         const { navigation } = swiper.params;
+                //         if (typeof navigation !== 'boolean') {
+                //             navigation.nextEl = nextBtnRef.current;
+                //         }
+                //     }
+                // }}
             >
                 <SwiperSlide>
-                    <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
+                    <div className="preview-block">
+                        <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
+                        <NextBtn />
+                    </div>
                     <span className="parallax-bg parallax-text">
                         33&nbsp;года&nbsp;33&nbsp;года
                     </span>{' '}
@@ -88,14 +121,23 @@ export const Main = (props: MainProps) => {
                 <SwiperSlide>
                     <Swiper
                         spaceBetween={50}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        mousewheel={{
-                            releaseOnEdges: true,
-                        }}
+                        pagination={
+                            !isMobile
+                                ? {
+                                      clickable: true,
+                                  }
+                                : mobilePagination
+                        }
+                        mousewheel={
+                            !isMobile
+                                ? {
+                                      releaseOnEdges: true,
+                                  }
+                                : false
+                        }
+                        parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
-                        className="horizontal-slider"
+                        className="nested-horizontal-slider"
                         onToEdge={(swiper) => {
                             console.log('hor Edge en');
                             setTimeout(() => {
@@ -126,71 +168,87 @@ export const Main = (props: MainProps) => {
                             33&nbsp;года&nbsp;33&nbsp;года
                         </span>
                         <SwiperSlide>
-                            <MainSlideBlock
-                                data-class="main"
-                                title={slidesData[0][0].slideTitle}
-                                // onMouseEnter={handleMouseEnter}
-                                // onMouseLeave={handleMouseLeave}
-                            >
-                                <Subtitle className="preview-text" size="l">
-                                    {slidesData[0][0].leftText.text}
-                                </Subtitle>
-                            </MainSlideBlock>
+                            <Container>
+                                <MainSlideBlock
+                                    title={slidesData[0][0].slideTitle}
+                                    // onMouseEnter={handleMouseEnter}
+                                    // onMouseLeave={handleMouseLeave}
+                                >
+                                    <Subtitle className="preview-text" size="l">
+                                        {slidesData[0][0].leftText.text}
+                                    </Subtitle>
+                                    {isMobile ? <NextBtn /> : null}
+                                </MainSlideBlock>
+                            </Container>
                         </SwiperSlide>
                         {slidesData[0].map((item, idx) => {
                             return idx !== 0 ? (
                                 <SwiperSlide key={item.rightText.title}>
-                                    <MainSlideBlock
-                                        data-class="main"
-                                        title={item.slideTitle}
-                                        // onMouseEnter={handleMouseEnter}
-                                        // onMouseLeave={handleMouseLeave}
-                                    >
-                                        <ThreeColumns
-                                            img={
-                                                <img
-                                                    src={item.imgSrc}
-                                                    alt={item.rightText.title}
-                                                    className="imageSlide"
-                                                />
-                                            }
+                                    <Container>
+                                        <MainSlideBlock
+                                            title={item.slideTitle}
+                                            // onMouseEnter={handleMouseEnter}
+                                            // onMouseLeave={handleMouseLeave}
                                         >
-                                            <TitleWithTextBlock
-                                                align={
-                                                    !isMobile
-                                                        ? 'right'
-                                                        : 'center'
+                                            <ThreeColumns
+                                                img={
+                                                    <img
+                                                        src={item.imgSrc}
+                                                        alt={
+                                                            item.rightText.title
+                                                        }
+                                                        className="imageSlide"
+                                                    />
                                                 }
-                                                title={item.leftText.title}
-                                                text={item.leftText.text}
-                                            />
-                                            <TitleWithTextBlock
-                                                align={
-                                                    !isMobile
-                                                        ? 'left'
-                                                        : 'center'
-                                                }
-                                                title={item.rightText.title}
-                                                text={item.rightText.text}
-                                            />
-                                        </ThreeColumns>
-                                    </MainSlideBlock>
+                                            >
+                                                <TitleWithTextBlock
+                                                    align={
+                                                        !isMobile
+                                                            ? 'right'
+                                                            : 'center'
+                                                    }
+                                                    title={item.leftText.title}
+                                                    text={item.leftText.text}
+                                                />
+                                                <TitleWithTextBlock
+                                                    align={
+                                                        !isMobile
+                                                            ? 'left'
+                                                            : 'center'
+                                                    }
+                                                    title={item.rightText.title}
+                                                    text={item.rightText.text}
+                                                />
+                                            </ThreeColumns>
+                                            {isMobile ? <NextBtn /> : null}
+                                        </MainSlideBlock>
+                                    </Container>
                                 </SwiperSlide>
                             ) : null;
                         })}
+                        {!isMobile ? <NextBtn /> : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Swiper
                         spaceBetween={50}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        mousewheel={{
-                            releaseOnEdges: true,
-                        }}
+                        pagination={
+                            !isMobile
+                                ? {
+                                      clickable: true,
+                                  }
+                                : mobilePagination
+                        }
+                        mousewheel={
+                            !isMobile
+                                ? {
+                                      releaseOnEdges: true,
+                                  }
+                                : false
+                        }
+                        parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
-                        className="horizontal-slider"
+                        className="nested-horizontal-slider"
                         onToEdge={(swiper) => {
                             console.log('hor Edge en');
                             setTimeout(() => {
@@ -224,7 +282,6 @@ export const Main = (props: MainProps) => {
                             return (
                                 <SwiperSlide key={item.rightText.title}>
                                     <MainSlideBlock
-                                        data-class="main"
                                         title={item.slideTitle}
                                         // onMouseEnter={handleMouseEnter}
                                         // onMouseLeave={handleMouseLeave}
@@ -257,23 +314,34 @@ export const Main = (props: MainProps) => {
                                                 text={item.rightText.text}
                                             />
                                         </ThreeColumns>
+                                        {isMobile ? <NextBtn /> : null}
                                     </MainSlideBlock>
                                 </SwiperSlide>
                             );
                         })}
+                        {!isMobile ? <NextBtn /> : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Swiper
                         spaceBetween={50}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        mousewheel={{
-                            releaseOnEdges: true,
-                        }}
+                        pagination={
+                            !isMobile
+                                ? {
+                                      clickable: true,
+                                  }
+                                : mobilePagination
+                        }
+                        mousewheel={
+                            !isMobile
+                                ? {
+                                      releaseOnEdges: true,
+                                  }
+                                : false
+                        }
+                        parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
-                        className="horizontal-slider"
+                        className="nested-horizontal-slider"
                         onToEdge={(swiper) => {
                             console.log('hor Edge en');
                             setTimeout(() => {
@@ -307,7 +375,6 @@ export const Main = (props: MainProps) => {
                             return (
                                 <SwiperSlide key={item.rightText.title}>
                                     <MainSlideBlock
-                                        data-class="main"
                                         title={item.slideTitle}
                                         // onMouseEnter={handleMouseEnter}
                                         // onMouseLeave={handleMouseLeave}
@@ -340,10 +407,12 @@ export const Main = (props: MainProps) => {
                                                 text={item.rightText.text}
                                             />
                                         </ThreeColumns>
+                                        {isMobile ? <NextBtn /> : null}
                                     </MainSlideBlock>
                                 </SwiperSlide>
                             );
                         })}
+                        {!isMobile ? <NextBtn /> : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
