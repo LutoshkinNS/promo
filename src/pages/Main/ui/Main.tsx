@@ -26,26 +26,7 @@ export interface MainProps {
 
 export const Main = (props: MainProps) => {
     const { className } = props;
-    const [lastVerticalSlide, setLastVerticalSlide] = useState<boolean>(false);
     const [allowVerticalNext, setAllowVerticalNext] = useState(true);
-    const [allowVerticalPrev, setAllowVerticalPrev] = useState(true);
-
-    const checkLastSlide = (swiper: any, callback?: any) => {
-        const { activeIndex } = swiper;
-        const slidesLength = swiper.slides.length - 1;
-        if (activeIndex === slidesLength) {
-            setAllowVerticalPrev(false);
-        } else if (activeIndex === 1) {
-            setAllowVerticalNext(false);
-        } else {
-            setAllowVerticalNext(true);
-            setAllowVerticalPrev(true);
-        }
-    };
-
-    const handleOnVerticalScroll = (swiper: any) => {
-        checkLastSlide(swiper, setLastVerticalSlide);
-    };
 
     const swiperRef = useRef<SwiperRef>();
 
@@ -61,39 +42,59 @@ export const Main = (props: MainProps) => {
                 pagination={{
                     clickable: true,
                 }}
-                mousewheel
+                mousewheel={{
+                    thresholdTime: 300,
+                }}
                 freeMode={{
                     enabled: false,
                     sticky: true,
                 }}
                 modules={[Pagination, Mousewheel, FreeMode]}
-                onSlideChange={(swiper) => {
-                    console.log(swiper);
-                    if (
-                        swiper.slides.length !== swiper.activeIndex + 1 ||
-                        swiper.activeIndex === 1
-                    ) {
-                        setTimeout(() => {
-                            console.log('vert dis');
-                            swiperRef.current?.swiper.mousewheel.disable();
-                        }, 100);
-                    }
-                }}
-                onToEdge={(swiper) => {
-                    console.log('hor en');
+                // onScroll={(swiper, event) => {
+                //     console.log('vert', swiper, event);
+                //     const isMatchNestedSwiper =
+                //         swiper.slides[swiper.activeIndex].children[0] &&
+                //         swiper.slides[swiper.activeIndex].children[0].matches(
+                //             '.swiper'
+                //         );
+                //     if (isMatchNestedSwiper) {
+                //         setTimeout(() => {
+                //             console.log('vert dis');
+                //             swiperRef.current?.swiper.mousewheel.disable();
+                //         }, 0);
+                //     }
+                // }}
+                onToEdge={() => {
+                    console.log('vert Edge en');
                     setTimeout(() => {
                         swiperRef.current?.swiper.mousewheel.enable();
-                    }, 100);
+                    }, 0);
                 }}
             >
                 <SwiperSlide>Vertival Slide 1</SwiperSlide>
                 <SwiperSlide>
                     <Swiper
                         onToEdge={(swiper) => {
-                            console.log('hor en');
+                            console.log('hor Edge en');
                             setTimeout(() => {
                                 swiperRef.current?.swiper.mousewheel.enable();
-                            }, 100);
+                            }, 0);
+                        }}
+                        onScroll={(swiper, event: any) => {
+                            console.log('hor', swiper, event);
+                            const isFirstSlide =
+                                swiper.slides.length === swiper.activeIndex + 1;
+                            const isLastSlide = swiper.activeIndex === 0;
+                            const nextScroll = event.wheelDelta < 0;
+                            const prevScroll = event.wheelDelta > 0;
+                            if (prevScroll && !isFirstSlide) {
+                                console.log('hor onScroll dis');
+                                swiperRef.current?.swiper.mousewheel.disable();
+                            }
+                            if (nextScroll && !isLastSlide) {
+                                console.log('hor onScroll dis');
+                                swiperRef.current?.swiper.mousewheel.disable();
+                            }
                         }}
                         className="mySwiper swiper-h"
                         spaceBetween={50}
@@ -108,38 +109,6 @@ export const Main = (props: MainProps) => {
                         <SwiperSlide>Horizontal Slide 1</SwiperSlide>
                         <SwiperSlide style={{ overflow: 'auto' }}>
                             <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>
-                            <h1>Horizontal Slide 2</h1>d
                         </SwiperSlide>
                         <SwiperSlide>Horizontal Slide 3</SwiperSlide>
                     </Swiper>
@@ -153,14 +122,29 @@ export const Main = (props: MainProps) => {
                         }}
                         mousewheel={{
                             releaseOnEdges: true,
-                            // forceToAxis: true,
                         }}
                         modules={[Pagination, Mousewheel]}
                         onToEdge={(swiper) => {
-                            console.log('hor en');
+                            console.log('hor Edge en');
                             setTimeout(() => {
                                 swiperRef.current?.swiper.mousewheel.enable();
-                            }, 100);
+                            }, 0);
+                        }}
+                        onScroll={(swiper, event: any) => {
+                            console.log('hor', swiper, event);
+                            const isFirstSlide =
+                                swiper.slides.length === swiper.activeIndex + 1;
+                            const isLastSlide = swiper.activeIndex === 0;
+                            const nextScroll = event.wheelDelta < 0;
+                            const prevScroll = event.wheelDelta > 0;
+                            if (prevScroll && !isFirstSlide) {
+                                console.log('hor onScroll dis');
+                                swiperRef.current?.swiper.mousewheel.disable();
+                            }
+                            if (nextScroll && !isLastSlide) {
+                                console.log('hor onScroll dis');
+                                swiperRef.current?.swiper.mousewheel.disable();
+                            }
                         }}
                     >
                         <SwiperSlide>Horizontal Slide 1</SwiperSlide>
@@ -170,42 +154,39 @@ export const Main = (props: MainProps) => {
                 </SwiperSlide>
                 <SwiperSlide>Horizontal Slide end</SwiperSlide>
             </Swiper>
-            {/*<Swiper*/}
-            {/*    direction="vertical"*/}
-            {/*    navigation={*/}
-            {/*        !lastVerticalSlide*/}
-            {/*            ? {*/}
-            {/*                  enabled: true,*/}
-            {/*              }*/}
-            {/*            : false*/}
-            {/*    }*/}
-            {/*    // mousewheel*/}
-            {/*    // allowSlideNext={allowVerticalNext}*/}
-            {/*    // allowSlidePrev={allowVerticalPrev}*/}
-            {/*    allowTouchMove={false}*/}
-            {/*    modules={[Navigation]}*/}
-            {/*    className="main-swiper-vertical"*/}
-            {/*    onSlideChange={handleOnVerticalScroll}*/}
-            {/*>*/}
-            {/*    <SwiperSlide className="slide">*/}
-            {/*        <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />*/}
-            {/*        <span className="parallax-bg parallax-text">*/}
-            {/*            33&nbsp;года&nbsp;33&nbsp;года*/}
-            {/*        </span>*/}
-            {/*    </SwiperSlide>*/}
-            {/*    <SwiperSlide>*/}
-            {/*        <HorizontalSlider data={slidesData[0]} />*/}
-            {/*    </SwiperSlide>*/}
-            {/*    <SwiperSlide>*/}
-            {/*        <HorizontalSlider data={slidesData[1]} />*/}
-            {/*    </SwiperSlide>*/}
-            {/*    <SwiperSlide>*/}
-            {/*        <HorizontalSlider data={slidesData[2]} />*/}
-            {/*    </SwiperSlide>*/}
-            {/*    <SwiperSlide>*/}
-            {/*        <FinalSlide />*/}
-            {/*    </SwiperSlide>*/}
-            {/*</Swiper>*/}
+            {/* <Swiper */}
+            {/*    direction="vertical" */}
+            {/*    navigation={ */}
+            {/*        !lastVerticalSlide */}
+            {/*            ? { */}
+            {/*                  enabled: true, */}
+            {/*              } */}
+            {/*            : false */}
+            {/*    } */}
+            {/*    allowTouchMove={false} */}
+            {/*    modules={[Navigation]} */}
+            {/*    className="main-swiper-vertical" */}
+            {/*    onSlideChange={handleOnVerticalScroll} */}
+            {/* > */}
+            {/*    <SwiperSlide className="slide"> */}
+            {/*        <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} /> */}
+            {/*        <span className="parallax-bg parallax-text"> */}
+            {/*            33&nbsp;года&nbsp;33&nbsp;года */}
+            {/*        </span> */}
+            {/*    </SwiperSlide> */}
+            {/*    <SwiperSlide> */}
+            {/*        <HorizontalSlider data={slidesData[0]} /> */}
+            {/*    </SwiperSlide> */}
+            {/*    <SwiperSlide> */}
+            {/*        <HorizontalSlider data={slidesData[1]} /> */}
+            {/*    </SwiperSlide> */}
+            {/*    <SwiperSlide> */}
+            {/*        <HorizontalSlider data={slidesData[2]} /> */}
+            {/*    </SwiperSlide> */}
+            {/*    <SwiperSlide> */}
+            {/*        <FinalSlide /> */}
+            {/*    </SwiperSlide> */}
+            {/* </Swiper> */}
         </Layout>
     );
 };
