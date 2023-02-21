@@ -16,7 +16,7 @@ import './Main.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/parallax';
-import { forwardRef, Ref, useRef, useState } from 'react';
+import { forwardRef, Ref, UIEventHandler, useRef, useState } from 'react';
 import { slidesData } from 'shared/config/slidesData';
 import { FinalSlide } from 'widgets/FinalSlide';
 import { HorizontalSlider } from 'widgets/Slider';
@@ -36,7 +36,9 @@ export interface MainProps {
 
 export const Main = (props: MainProps) => {
     const { className } = props;
-    const [allowVerticalNext, setAllowVerticalNext] = useState(true);
+    const [slideScroll, setSlideScroll] = useState<number>(
+        document.documentElement.clientHeight / 2
+    );
 
     const swiperRef = useRef<SwiperRef>();
     const nextBtnRef = useRef<HTMLDivElement>(null);
@@ -54,8 +56,8 @@ export const Main = (props: MainProps) => {
 
     // eslint-disable-next-line react/no-unstable-nested-components
     const NextBtn = () => (
-        // eslint-disable-next-line jsx-a11y/control-has-associated-label
         <button
+            aria-label="next slide"
             type="button"
             className="slider-next-btn"
             onClick={() => {
@@ -63,6 +65,13 @@ export const Main = (props: MainProps) => {
             }}
         />
     );
+
+    const handleSlideScroll = (event: any) => {
+        const { currentTarget } = event;
+        const scroll = currentTarget.scrollTop;
+        const heightSlideEl = currentTarget.getBoundingClientRect().height;
+        setSlideScroll((heightSlideEl - scroll) / 2);
+    };
 
     return (
         <Layout>
@@ -90,7 +99,6 @@ export const Main = (props: MainProps) => {
                 // }}
                 navigation={{
                     enabled: true,
-                    // nextEl: nextBtnRef.current,
                 }}
                 modules={[Pagination, Mousewheel, Navigation]}
                 onToEdge={() => {
@@ -99,15 +107,6 @@ export const Main = (props: MainProps) => {
                         swiperRef.current?.swiper.mousewheel.enable();
                     }, 0);
                 }}
-                // onBeforeInit={(swiper) => {
-                //     console.log(swiper.params.navigation);
-                //     if (swiper.params.navigation) {
-                //         const { navigation } = swiper.params;
-                //         if (typeof navigation !== 'boolean') {
-                //             navigation.nextEl = nextBtnRef.current;
-                //         }
-                //     }
-                // }}
             >
                 <SwiperSlide>
                     <div className="preview-block">
@@ -183,7 +182,10 @@ export const Main = (props: MainProps) => {
                         </SwiperSlide>
                         {slidesData[0].map((item, idx) => {
                             return idx !== 0 ? (
-                                <SwiperSlide key={item.rightText.title}>
+                                <SwiperSlide
+                                    onScroll={handleSlideScroll}
+                                    key={item.rightText.title}
+                                >
                                     <Container>
                                         <MainSlideBlock
                                             title={item.slideTitle}
@@ -200,6 +202,7 @@ export const Main = (props: MainProps) => {
                                                         className="imageSlide"
                                                     />
                                                 }
+                                                slideScroll={slideScroll}
                                             >
                                                 <TitleWithTextBlock
                                                     align={
@@ -280,42 +283,50 @@ export const Main = (props: MainProps) => {
                         </span>
                         {slidesData[1].map((item, idx) => {
                             return (
-                                <SwiperSlide key={item.rightText.title}>
-                                    <MainSlideBlock
-                                        title={item.slideTitle}
-                                        // onMouseEnter={handleMouseEnter}
-                                        // onMouseLeave={handleMouseLeave}
-                                    >
-                                        <ThreeColumns
-                                            img={
-                                                <img
-                                                    src={item.imgSrc}
-                                                    alt={item.rightText.title}
-                                                    className="imageSlide"
-                                                />
-                                            }
+                                <SwiperSlide
+                                    key={item.rightText.title}
+                                    onScroll={handleSlideScroll}
+                                >
+                                    <Container>
+                                        <MainSlideBlock
+                                            title={item.slideTitle}
+                                            // onMouseEnter={handleMouseEnter}
+                                            // onMouseLeave={handleMouseLeave}
                                         >
-                                            <TitleWithTextBlock
-                                                align={
-                                                    !isMobile
-                                                        ? 'right'
-                                                        : 'center'
+                                            <ThreeColumns
+                                                img={
+                                                    <img
+                                                        src={item.imgSrc}
+                                                        alt={
+                                                            item.rightText.title
+                                                        }
+                                                        className="imageSlide"
+                                                    />
                                                 }
-                                                title={item.leftText.title}
-                                                text={item.leftText.text}
-                                            />
-                                            <TitleWithTextBlock
-                                                align={
-                                                    !isMobile
-                                                        ? 'left'
-                                                        : 'center'
-                                                }
-                                                title={item.rightText.title}
-                                                text={item.rightText.text}
-                                            />
-                                        </ThreeColumns>
-                                        {isMobile ? <NextBtn /> : null}
-                                    </MainSlideBlock>
+                                                slideScroll={slideScroll}
+                                            >
+                                                <TitleWithTextBlock
+                                                    align={
+                                                        !isMobile
+                                                            ? 'right'
+                                                            : 'center'
+                                                    }
+                                                    title={item.leftText.title}
+                                                    text={item.leftText.text}
+                                                />
+                                                <TitleWithTextBlock
+                                                    align={
+                                                        !isMobile
+                                                            ? 'left'
+                                                            : 'center'
+                                                    }
+                                                    title={item.rightText.title}
+                                                    text={item.rightText.text}
+                                                />
+                                            </ThreeColumns>
+                                            {isMobile ? <NextBtn /> : null}
+                                        </MainSlideBlock>
+                                    </Container>
                                 </SwiperSlide>
                             );
                         })}
@@ -373,42 +384,50 @@ export const Main = (props: MainProps) => {
                         </span>
                         {slidesData[2].map((item, idx) => {
                             return (
-                                <SwiperSlide key={item.rightText.title}>
-                                    <MainSlideBlock
-                                        title={item.slideTitle}
-                                        // onMouseEnter={handleMouseEnter}
-                                        // onMouseLeave={handleMouseLeave}
-                                    >
-                                        <ThreeColumns
-                                            img={
-                                                <img
-                                                    src={item.imgSrc}
-                                                    alt={item.rightText.title}
-                                                    className="imageSlide"
-                                                />
-                                            }
+                                <SwiperSlide
+                                    key={item.rightText.title}
+                                    onScroll={handleSlideScroll}
+                                >
+                                    <Container>
+                                        <MainSlideBlock
+                                            title={item.slideTitle}
+                                            // onMouseEnter={handleMouseEnter}
+                                            // onMouseLeave={handleMouseLeave}
                                         >
-                                            <TitleWithTextBlock
-                                                align={
-                                                    !isMobile
-                                                        ? 'right'
-                                                        : 'center'
+                                            <ThreeColumns
+                                                img={
+                                                    <img
+                                                        src={item.imgSrc}
+                                                        alt={
+                                                            item.rightText.title
+                                                        }
+                                                        className="imageSlide"
+                                                    />
                                                 }
-                                                title={item.leftText.title}
-                                                text={item.leftText.text}
-                                            />
-                                            <TitleWithTextBlock
-                                                align={
-                                                    !isMobile
-                                                        ? 'left'
-                                                        : 'center'
-                                                }
-                                                title={item.rightText.title}
-                                                text={item.rightText.text}
-                                            />
-                                        </ThreeColumns>
-                                        {isMobile ? <NextBtn /> : null}
-                                    </MainSlideBlock>
+                                                slideScroll={slideScroll}
+                                            >
+                                                <TitleWithTextBlock
+                                                    align={
+                                                        !isMobile
+                                                            ? 'right'
+                                                            : 'center'
+                                                    }
+                                                    title={item.leftText.title}
+                                                    text={item.leftText.text}
+                                                />
+                                                <TitleWithTextBlock
+                                                    align={
+                                                        !isMobile
+                                                            ? 'left'
+                                                            : 'center'
+                                                    }
+                                                    title={item.rightText.title}
+                                                    text={item.rightText.text}
+                                                />
+                                            </ThreeColumns>
+                                            {isMobile ? <NextBtn /> : null}
+                                        </MainSlideBlock>
+                                    </Container>
                                 </SwiperSlide>
                             );
                         })}

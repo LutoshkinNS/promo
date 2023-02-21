@@ -60,7 +60,7 @@
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    padding-bottom: 5vh;
+    padding-bottom: 15vh;
 }
 
 
@@ -70,9 +70,14 @@
 
 /* --bp-400 */
 @media (max-width: 400px) {
-    /*.slider-next-btn {*/
-    /*    position: relative;*/
-    /*}*/
+    .slider-next-btn {
+        position: static;
+        margin-bottom: 4vh;
+    }
+
+    .preview-block {
+        padding-bottom: 0vh;
+    }
 
     .preview-text {
         margin-top: 0px;
@@ -89,6 +94,7 @@
 
     .nested-horizontal-slider .swiper-slide {
         overflow-y: auto;
+        padding-top: 10vh;
         padding-bottom: 0vh;
     }
 
@@ -123,52 +129,10 @@
     .swiper-pagination::-webkit-scrollbar {
         width: 0;
     }
+
+    .imageSlide {
+
+    }
 }
-
-
-/*#app {*/
-/*    height: 100%;*/
-/*}*/
-/*html,*/
-/*body {*/
-/*    position: relative;*/
-/*    height: 100%;*/
-/*}*/
-
-/*body {*/
-/*    font-family: Helvetica Neue, Helvetica, Arial, sans-serif;*/
-/*    font-size: 14px;*/
-/*    color: #000;*/
-/*    margin: 0;*/
-/*    padding: 0;*/
-/*}*/
-
-/*.swiper {*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*}*/
-
-/*.swiper-slide {*/
-/*    text-align: center;*/
-/*    font-size: 18px;*/
-
-/*    !* Center slide text vertically *!*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
-
-/*.swiper-slide img {*/
-/*    display: block;*/
-/*    width: 100%;*/
-/*    height: 100%;*/
-/*    object-fit: cover;*/
-/*}*/
-
-/*.swiper-v {*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
 
 
