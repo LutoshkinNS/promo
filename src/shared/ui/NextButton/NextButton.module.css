@@ -1,0 +1,24 @@
+.NextButton {
+    position: absolute;
+    left: calc(50% - 2.5rem);
+    bottom: 4vh;
+    flex-shrink: 0;
+    margin: 0 auto;
+    height: 5rem;
+    width: 5rem;
+    background-image: url("shared/assets/img/arrow-down.svg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    z-index: 20;
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+/* --bp-400 */
+@media (max-width: 400px) {
+    .NextButton {
+        position: static;
+        margin-bottom: 4vh;
+    }
+}

@@ -18,6 +18,7 @@ import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
 import { mobile } from 'shared/libs';
 import { PaginationOptions } from 'swiper/types';
 import { Container } from 'shared/ui/Container/Container';
+import { NextButton } from 'shared/ui/NextButton';
 
 export const Main = () => {
     const [slideScroll, setSlideScroll] = useState<number>(
@@ -37,18 +38,9 @@ export const Main = () => {
         },
     };
 
-    // TODO вынести в отдельный компонент
-    // eslint-disable-next-line react/no-unstable-nested-components
-    const NextBtn = () => (
-        <button
-            aria-label="next slide"
-            type="button"
-            className="slider-next-btn"
-            onClick={() => {
-                swiperRef.current?.swiper.slideNext();
-            }}
-        />
-    );
+    const nextSlide = () => {
+        swiperRef.current?.swiper.slideNext();
+    };
 
     const handleSlideScroll = (event: any) => {
         const { currentTarget } = event;
@@ -94,7 +86,7 @@ export const Main = () => {
                 <SwiperSlide>
                     <div className="preview-block">
                         <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
-                        <NextBtn />
+                        <NextButton onClick={nextSlide} />
                     </div>
                     <span className="parallax-bg parallax-text">
                         33&nbsp;года&nbsp;33&nbsp;года
@@ -156,7 +148,9 @@ export const Main = () => {
                                     <Subtitle className="preview-text" size="l">
                                         {slidesData[0][0].leftText.text}
                                     </Subtitle>
-                                    {isMobile ? <NextBtn /> : null}
+                                    {isMobile ? (
+                                        <NextButton onClick={nextSlide} />
+                                    ) : null}
                                 </MainSlideBlock>
                             </Container>
                         </SwiperSlide>
@@ -182,7 +176,11 @@ export const Main = () => {
                                                         className="imageSlide"
                                                     />
                                                 }
-                                                slideScroll={slideScroll}
+                                                slideScroll={
+                                                    isMobile
+                                                        ? slideScroll
+                                                        : undefined
+                                                }
                                             >
                                                 <TitleWithTextBlock
                                                     align={
@@ -203,13 +201,17 @@ export const Main = () => {
                                                     text={item.rightText.text}
                                                 />
                                             </ThreeColumns>
-                                            {isMobile ? <NextBtn /> : null}
+                                            {isMobile ? (
+                                                <NextButton
+                                                    onClick={nextSlide}
+                                                />
+                                            ) : null}
                                         </MainSlideBlock>
                                     </Container>
                                 </SwiperSlide>
                             ) : null;
                         })}
-                        {!isMobile ? <NextBtn /> : null}
+                        {!isMobile ? <NextButton onClick={nextSlide} /> : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
@@ -280,7 +282,11 @@ export const Main = () => {
                                                         className="imageSlide"
                                                     />
                                                 }
-                                                slideScroll={slideScroll}
+                                                slideScroll={
+                                                    isMobile
+                                                        ? slideScroll
+                                                        : undefined
+                                                }
                                             >
                                                 <TitleWithTextBlock
                                                     align={
@@ -301,13 +307,17 @@ export const Main = () => {
                                                     text={item.rightText.text}
                                                 />
                                             </ThreeColumns>
-                                            {isMobile ? <NextBtn /> : null}
+                                            {isMobile ? (
+                                                <NextButton
+                                                    onClick={nextSlide}
+                                                />
+                                            ) : null}
                                         </MainSlideBlock>
                                     </Container>
                                 </SwiperSlide>
                             );
                         })}
-                        {!isMobile ? <NextBtn /> : null}
+                        {!isMobile ? <NextButton onClick={nextSlide} /> : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
@@ -378,7 +388,11 @@ export const Main = () => {
                                                         className="imageSlide"
                                                     />
                                                 }
-                                                slideScroll={slideScroll}
+                                                slideScroll={
+                                                    isMobile
+                                                        ? slideScroll
+                                                        : undefined
+                                                }
                                             >
                                                 <TitleWithTextBlock
                                                     align={
@@ -399,13 +413,17 @@ export const Main = () => {
                                                     text={item.rightText.text}
                                                 />
                                             </ThreeColumns>
-                                            {isMobile ? <NextBtn /> : null}
+                                            {isMobile ? (
+                                                <NextButton
+                                                    onClick={nextSlide}
+                                                />
+                                            ) : null}
                                         </MainSlideBlock>
                                     </Container>
                                 </SwiperSlide>
                             );
                         })}
-                        {!isMobile ? <NextBtn /> : null}
+                        {!isMobile ? <NextButton onClick={nextSlide} /> : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
