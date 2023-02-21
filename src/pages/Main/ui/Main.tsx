@@ -1,11 +1,13 @@
 import clsx from 'clsx';
 import { Layout } from 'widgets/Layout';
 import {
+    Autoplay,
     Controller,
     FreeMode,
     Mousewheel,
     Navigation,
     Pagination,
+    Parallax,
 } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { PreviewBlock } from 'widgets/PreviewBlock';
@@ -19,6 +21,11 @@ import { slidesData } from 'shared/config/slidesData';
 import { FinalSlide } from 'widgets/FinalSlide';
 import { HorizontalSlider } from 'widgets/Slider';
 import { SwiperRef } from 'swiper/react/swiper-react';
+import { MainSlideBlock } from 'widgets/MainSlideBlock';
+import { Subtitle } from 'shared/ui/Subtitle';
+import { ThreeColumns } from 'widgets/ThreeColumns';
+import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
+import { mobile } from 'shared/libs';
 
 export interface MainProps {
     className?: string;
@@ -29,6 +36,7 @@ export const Main = (props: MainProps) => {
     const [allowVerticalNext, setAllowVerticalNext] = useState(true);
 
     const swiperRef = useRef<SwiperRef>();
+    const isMobile = mobile();
 
     return (
         <Layout>
@@ -71,9 +79,23 @@ export const Main = (props: MainProps) => {
                     }, 0);
                 }}
             >
-                <SwiperSlide>Vertival Slide 1</SwiperSlide>
+                <SwiperSlide>
+                    <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
+                    <span className="parallax-bg parallax-text">
+                        33&nbsp;года&nbsp;33&nbsp;года
+                    </span>{' '}
+                </SwiperSlide>
                 <SwiperSlide>
                     <Swiper
+                        spaceBetween={50}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        mousewheel={{
+                            releaseOnEdges: true,
+                        }}
+                        modules={[Mousewheel, Pagination, Parallax, Autoplay]}
+                        className="horizontal-slider"
                         onToEdge={(swiper) => {
                             console.log('hor Edge en');
                             setTimeout(() => {
@@ -96,26 +118,70 @@ export const Main = (props: MainProps) => {
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                         }}
-                        className="mySwiper swiper-h"
-                        spaceBetween={50}
-                        pagination={{
-                            clickable: true,
-                        }}
-                        mousewheel={{
-                            releaseOnEdges: true,
-                        }}
-                        modules={[Pagination, Mousewheel]}
                     >
-                        <SwiperSlide>Horizontal Slide 1</SwiperSlide>
-                        <SwiperSlide style={{ overflow: 'auto' }}>
-                            <h1>Horizontal Slide 2</h1>
+                        <span
+                            className="parallax-bg parallax-text"
+                            data-swiper-parallax="-20%"
+                        >
+                            33&nbsp;года&nbsp;33&nbsp;года
+                        </span>
+                        <SwiperSlide>
+                            <MainSlideBlock
+                                data-class="main"
+                                title={slidesData[0][0].slideTitle}
+                                // onMouseEnter={handleMouseEnter}
+                                // onMouseLeave={handleMouseLeave}
+                            >
+                                <Subtitle className="preview-text" size="l">
+                                    {slidesData[0][0].leftText.text}
+                                </Subtitle>
+                            </MainSlideBlock>
                         </SwiperSlide>
-                        <SwiperSlide>Horizontal Slide 3</SwiperSlide>
+                        {slidesData[0].map((item, idx) => {
+                            return idx !== 0 ? (
+                                <SwiperSlide key={item.rightText.title}>
+                                    <MainSlideBlock
+                                        data-class="main"
+                                        title={item.slideTitle}
+                                        // onMouseEnter={handleMouseEnter}
+                                        // onMouseLeave={handleMouseLeave}
+                                    >
+                                        <ThreeColumns
+                                            img={
+                                                <img
+                                                    src={item.imgSrc}
+                                                    alt={item.rightText.title}
+                                                    className="imageSlide"
+                                                />
+                                            }
+                                        >
+                                            <TitleWithTextBlock
+                                                align={
+                                                    !isMobile
+                                                        ? 'right'
+                                                        : 'center'
+                                                }
+                                                title={item.leftText.title}
+                                                text={item.leftText.text}
+                                            />
+                                            <TitleWithTextBlock
+                                                align={
+                                                    !isMobile
+                                                        ? 'left'
+                                                        : 'center'
+                                                }
+                                                title={item.rightText.title}
+                                                text={item.rightText.text}
+                                            />
+                                        </ThreeColumns>
+                                    </MainSlideBlock>
+                                </SwiperSlide>
+                            ) : null;
+                        })}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
                     <Swiper
-                        className="mySwiper swiper-h"
                         spaceBetween={50}
                         pagination={{
                             clickable: true,
@@ -123,7 +189,8 @@ export const Main = (props: MainProps) => {
                         mousewheel={{
                             releaseOnEdges: true,
                         }}
-                        modules={[Pagination, Mousewheel]}
+                        modules={[Mousewheel, Pagination, Parallax, Autoplay]}
+                        className="horizontal-slider"
                         onToEdge={(swiper) => {
                             console.log('hor Edge en');
                             setTimeout(() => {
@@ -147,46 +214,142 @@ export const Main = (props: MainProps) => {
                             }
                         }}
                     >
-                        <SwiperSlide>Horizontal Slide 1</SwiperSlide>
-                        <SwiperSlide>Horizontal Slide 2</SwiperSlide>
-                        <SwiperSlide>Horizontal Slide 3</SwiperSlide>
+                        <span
+                            className="parallax-bg parallax-text"
+                            data-swiper-parallax="-20%"
+                        >
+                            33&nbsp;года&nbsp;33&nbsp;года
+                        </span>
+                        {slidesData[1].map((item, idx) => {
+                            return (
+                                <SwiperSlide key={item.rightText.title}>
+                                    <MainSlideBlock
+                                        data-class="main"
+                                        title={item.slideTitle}
+                                        // onMouseEnter={handleMouseEnter}
+                                        // onMouseLeave={handleMouseLeave}
+                                    >
+                                        <ThreeColumns
+                                            img={
+                                                <img
+                                                    src={item.imgSrc}
+                                                    alt={item.rightText.title}
+                                                    className="imageSlide"
+                                                />
+                                            }
+                                        >
+                                            <TitleWithTextBlock
+                                                align={
+                                                    !isMobile
+                                                        ? 'right'
+                                                        : 'center'
+                                                }
+                                                title={item.leftText.title}
+                                                text={item.leftText.text}
+                                            />
+                                            <TitleWithTextBlock
+                                                align={
+                                                    !isMobile
+                                                        ? 'left'
+                                                        : 'center'
+                                                }
+                                                title={item.rightText.title}
+                                                text={item.rightText.text}
+                                            />
+                                        </ThreeColumns>
+                                    </MainSlideBlock>
+                                </SwiperSlide>
+                            );
+                        })}
                     </Swiper>
                 </SwiperSlide>
-                <SwiperSlide>Horizontal Slide end</SwiperSlide>
+                <SwiperSlide>
+                    <Swiper
+                        spaceBetween={50}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        mousewheel={{
+                            releaseOnEdges: true,
+                        }}
+                        modules={[Mousewheel, Pagination, Parallax, Autoplay]}
+                        className="horizontal-slider"
+                        onToEdge={(swiper) => {
+                            console.log('hor Edge en');
+                            setTimeout(() => {
+                                swiperRef.current?.swiper.mousewheel.enable();
+                            }, 0);
+                        }}
+                        onScroll={(swiper, event: any) => {
+                            console.log('hor', swiper, event);
+                            const isFirstSlide =
+                                swiper.slides.length === swiper.activeIndex + 1;
+                            const isLastSlide = swiper.activeIndex === 0;
+                            const nextScroll = event.wheelDelta < 0;
+                            const prevScroll = event.wheelDelta > 0;
+                            if (prevScroll && !isFirstSlide) {
+                                console.log('hor onScroll dis');
+                                swiperRef.current?.swiper.mousewheel.disable();
+                            }
+                            if (nextScroll && !isLastSlide) {
+                                console.log('hor onScroll dis');
+                                swiperRef.current?.swiper.mousewheel.disable();
+                            }
+                        }}
+                    >
+                        <span
+                            className="parallax-bg parallax-text"
+                            data-swiper-parallax="-20%"
+                        >
+                            33&nbsp;года&nbsp;33&nbsp;года
+                        </span>
+                        {slidesData[2].map((item, idx) => {
+                            return (
+                                <SwiperSlide key={item.rightText.title}>
+                                    <MainSlideBlock
+                                        data-class="main"
+                                        title={item.slideTitle}
+                                        // onMouseEnter={handleMouseEnter}
+                                        // onMouseLeave={handleMouseLeave}
+                                    >
+                                        <ThreeColumns
+                                            img={
+                                                <img
+                                                    src={item.imgSrc}
+                                                    alt={item.rightText.title}
+                                                    className="imageSlide"
+                                                />
+                                            }
+                                        >
+                                            <TitleWithTextBlock
+                                                align={
+                                                    !isMobile
+                                                        ? 'right'
+                                                        : 'center'
+                                                }
+                                                title={item.leftText.title}
+                                                text={item.leftText.text}
+                                            />
+                                            <TitleWithTextBlock
+                                                align={
+                                                    !isMobile
+                                                        ? 'left'
+                                                        : 'center'
+                                                }
+                                                title={item.rightText.title}
+                                                text={item.rightText.text}
+                                            />
+                                        </ThreeColumns>
+                                    </MainSlideBlock>
+                                </SwiperSlide>
+                            );
+                        })}
+                    </Swiper>
+                </SwiperSlide>
+                <SwiperSlide>
+                    <FinalSlide />
+                </SwiperSlide>
             </Swiper>
-            {/* <Swiper */}
-            {/*    direction="vertical" */}
-            {/*    navigation={ */}
-            {/*        !lastVerticalSlide */}
-            {/*            ? { */}
-            {/*                  enabled: true, */}
-            {/*              } */}
-            {/*            : false */}
-            {/*    } */}
-            {/*    allowTouchMove={false} */}
-            {/*    modules={[Navigation]} */}
-            {/*    className="main-swiper-vertical" */}
-            {/*    onSlideChange={handleOnVerticalScroll} */}
-            {/* > */}
-            {/*    <SwiperSlide className="slide"> */}
-            {/*        <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} /> */}
-            {/*        <span className="parallax-bg parallax-text"> */}
-            {/*            33&nbsp;года&nbsp;33&nbsp;года */}
-            {/*        </span> */}
-            {/*    </SwiperSlide> */}
-            {/*    <SwiperSlide> */}
-            {/*        <HorizontalSlider data={slidesData[0]} /> */}
-            {/*    </SwiperSlide> */}
-            {/*    <SwiperSlide> */}
-            {/*        <HorizontalSlider data={slidesData[1]} /> */}
-            {/*    </SwiperSlide> */}
-            {/*    <SwiperSlide> */}
-            {/*        <HorizontalSlider data={slidesData[2]} /> */}
-            {/*    </SwiperSlide> */}
-            {/*    <SwiperSlide> */}
-            {/*        <FinalSlide /> */}
-            {/*    </SwiperSlide> */}
-            {/* </Swiper> */}
         </Layout>
     );
 };

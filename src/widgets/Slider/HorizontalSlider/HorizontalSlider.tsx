@@ -10,7 +10,7 @@ import { Swiper, SwiperRef, SwiperSlide } from 'swiper/react';
 import { mobile } from 'shared/libs';
 import { PaginationOptions } from 'swiper/types';
 import { SlideData } from 'shared/config/slidesData';
-import { MouseEvent, ReactNode, useRef, useState } from 'react';
+import { MouseEvent, ReactNode, Ref, useRef, useState } from 'react';
 import { MainSlideBlock } from 'widgets/MainSlideBlock';
 import { Subtitle } from 'shared/ui/Subtitle';
 import { ThreeColumns } from 'widgets/ThreeColumns';
@@ -21,36 +21,12 @@ export interface HorizontalSliderProps {
     className?: string;
     children?: ReactNode;
     data: SlideData[];
+    parentVerticalSwiperRef: SwiperRef | undefined;
 }
 
 export const HorizontalSlider = (props: HorizontalSliderProps) => {
-    const { className, children, data } = props;
-    const [lastVerticalSlide, setLastVerticalSlide] = useState<boolean>(false);
-    const [allowVerticalNext, setAllowVerticalNext] = useState(true);
-    const [allowVerticalPrev, setAllowVerticalPrev] = useState(true);
-    const [isMouseEnterSlide, setMouseEnterSlide] = useState(false);
+    const { className, children, data, parentVerticalSwiperRef } = props;
     const isMobile = mobile();
-
-    const checkLastSlide = (swiper: any, callback?: any) => {
-        const { activeIndex } = swiper;
-        const slidesLength = swiper.slides.length - 1;
-        if (activeIndex === slidesLength) {
-            setAllowVerticalPrev(false);
-        } else if (activeIndex === 1) {
-            setAllowVerticalNext(false);
-        } else {
-            setAllowVerticalNext(true);
-            setAllowVerticalPrev(true);
-        }
-    };
-
-    const handleOnVerticalScroll = (swiper: any) => {
-        checkLastSlide(swiper, setLastVerticalSlide);
-    };
-
-    const handleOnHorizontalScroll = (swiper: any) => {
-        checkLastSlide(swiper);
-    };
 
     const mobilePagination: PaginationOptions = {
         clickable: true,
@@ -60,51 +36,52 @@ export const HorizontalSlider = (props: HorizontalSliderProps) => {
         },
     };
 
-    const swiperRef = useRef<SwiperRef>();
-    console.log(swiperRef);
+    // const swiperRef = useRef<SwiperRef>();
+    // console.log(swiperRef);
 
-    const handleMouseEnter = (e: MouseEvent<HTMLDivElement>) => {
-        console.log('handleMouseEnter', e.target);
-        swiperRef.current?.swiper.autoplay.stop();
-    };
-
-    const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
-        console.log('handleMouseLeave', e.target);
-        swiperRef.current?.swiper.autoplay.start();
-    };
+    // const handleMouseEnter = (e: MouseEvent<HTMLDivElement>) => {
+    //     console.log('handleMouseEnter', e.target);
+    //     swiperRef.current?.swiper.autoplay.stop();
+    // };
+    //
+    // const handleMouseLeave = (e: MouseEvent<HTMLDivElement>) => {
+    //     console.log('handleMouseLeave', e.target);
+    //     swiperRef.current?.swiper.autoplay.start();
+    // };
 
     return (
         <Swiper
-            onSwiper={(swiper) => {
-                swiperRef.current = { swiper };
-            }}
-            // autoHeight
-            parallax
-            direction="horizontal"
             spaceBetween={50}
-            slidesPerView={1}
-            pagination={
-                !isMobile
-                    ? {
-                          clickable: true,
-                      }
-                    : mobilePagination
-            }
-            autoplay={
-                isMouseEnterSlide
-                    ? false
-                    : {
-                          delay: 3000,
-                          disableOnInteraction: true,
-                      }
-            }
-            onAfterInit={(swiper) => {
-                swiper.autoplay.stop();
+            pagination={{
+                clickable: true,
             }}
-            mousewheel
+            mousewheel={{
+                releaseOnEdges: true,
+            }}
             modules={[Mousewheel, Pagination, Parallax, Autoplay]}
             className="horizontal-slider"
-            onSlideChange={handleOnHorizontalScroll}
+            onToEdge={(swiper) => {
+                console.log('hor Edge en');
+                setTimeout(() => {
+                    parentVerticalSwiperRef?.swiper.mousewheel.enable();
+                }, 0);
+            }}
+            onScroll={(swiper, event: any) => {
+                console.log('hor', swiper, event);
+                const isFirstSlide =
+                    swiper.slides.length === swiper.activeIndex + 1;
+                const isLastSlide = swiper.activeIndex === 0;
+                const nextScroll = event.wheelDelta < 0;
+                const prevScroll = event.wheelDelta > 0;
+                if (prevScroll && !isFirstSlide) {
+                    console.log('hor onScroll dis');
+                    parentVerticalSwiperRef?.swiper.mousewheel.disable();
+                }
+                if (nextScroll && !isLastSlide) {
+                    console.log('hor onScroll dis');
+                    parentVerticalSwiperRef?.swiper.mousewheel.disable();
+                }
+            }}
         >
             <span
                 className="parallax-bg parallax-text"
@@ -116,8 +93,8 @@ export const HorizontalSlider = (props: HorizontalSliderProps) => {
                 <MainSlideBlock
                     data-class="main"
                     title={data[0].slideTitle}
-                    onMouseEnter={handleMouseEnter}
-                    onMouseLeave={handleMouseLeave}
+                    // onMouseEnter={handleMouseEnter}
+                    // onMouseLeave={handleMouseLeave}
                 >
                     <Subtitle className="preview-text" size="l">
                         {data[0].leftText.text}
@@ -130,8 +107,8 @@ export const HorizontalSlider = (props: HorizontalSliderProps) => {
                         <MainSlideBlock
                             data-class="main"
                             title={item.slideTitle}
-                            onMouseEnter={handleMouseEnter}
-                            onMouseLeave={handleMouseLeave}
+                            // onMouseEnter={handleMouseEnter}
+                            // onMouseLeave={handleMouseLeave}
                         >
                             <ThreeColumns
                                 img={
