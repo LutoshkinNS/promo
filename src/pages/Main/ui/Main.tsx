@@ -13,8 +13,6 @@ import { FinalSlide } from 'widgets/FinalSlide';
 import { SwiperRef } from 'swiper/react/swiper-react';
 import { MainSlideBlock } from 'widgets/MainSlideBlock';
 import { Subtitle } from 'shared/ui/Subtitle';
-import { ThreeColumns } from 'widgets/ThreeColumns';
-import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
 import { mobile } from 'shared/libs';
 import { PaginationOptions } from 'swiper/types';
 import { Container } from 'shared/ui/Container/Container';
@@ -26,9 +24,10 @@ export const Main = () => {
         document.documentElement.clientHeight / 2
     );
 
-    const swiperRef = useRef<SwiperRef>();
+    const verticalSwiperRef = useRef<SwiperRef>();
     const isMobile = mobile();
 
+    // TODO вынести в отдельный компонент
     const mobilePagination: PaginationOptions = {
         clickable: true,
         renderBullet(index, classN) {
@@ -39,10 +38,11 @@ export const Main = () => {
         },
     };
 
-    const nextSlide = () => {
-        swiperRef.current?.swiper.slideNext();
+    const onNextSlide = () => {
+        verticalSwiperRef.current?.swiper.slideNext();
     };
 
+    // FIXME any type
     const handleSlideScroll = (event: any) => {
         const { currentTarget } = event;
         const scroll = currentTarget.scrollTop;
@@ -50,88 +50,71 @@ export const Main = () => {
         setSlideScroll((heightSlideEl - scroll) / 2);
     };
 
+    const onEnableVerticalSlideChange = () => {
+        setTimeout(() => {
+            verticalSwiperRef.current?.swiper.mousewheel.enable();
+        }, 0);
+    };
+
+    const onDisableVerticalSlideChange = () => {
+        verticalSwiperRef.current?.swiper.mousewheel.disable();
+    };
+
+    // FIXME any type
+    const onHorizontalScroll = (swiper: any, event: any) => {
+        const isFirstSlide = swiper.slides.length === swiper.activeIndex + 1;
+        const isLastSlide = swiper.activeIndex === 0;
+        const nextScroll = event.wheelDelta < 0;
+        const prevScroll = event.wheelDelta > 0;
+        if (prevScroll && !isFirstSlide) {
+            onDisableVerticalSlideChange();
+        }
+        if (nextScroll && !isLastSlide) {
+            onDisableVerticalSlideChange();
+        }
+    };
+
     return (
         <Layout>
             <Swiper
                 onSwiper={(swiper) => {
-                    swiperRef.current = { swiper };
+                    verticalSwiperRef.current = { swiper };
                 }}
                 direction="vertical"
                 spaceBetween={50}
                 className="vertical-slider"
-                // pagination={{
-                //     clickable: true,
-                // }}
-                mousewheel={
-                    !isMobile
-                        ? {
-                              thresholdTime: 300,
-                          }
-                        : false
-                }
+                mousewheel={!isMobile ? { thresholdTime: 300 } : false}
                 allowTouchMove={false}
-                // freeMode={{
-                //     enabled: false,
-                //     sticky: true,
-                // }}
                 navigation={{
                     enabled: true,
                 }}
                 modules={[Pagination, Mousewheel, Navigation]}
-                onToEdge={() => {
-                    setTimeout(() => {
-                        swiperRef.current?.swiper.mousewheel.enable();
-                    }, 0);
-                }}
+                onToEdge={onEnableVerticalSlideChange}
             >
                 <SwiperSlide>
                     <div className="preview-block">
                         <PreviewBlock altImg="Цифра 33" imgSrc={YearOldIcon} />
-                        <NextButton onClick={nextSlide} />
+                        <NextButton onClick={onNextSlide} />
                     </div>
                     <span className="parallax-bg parallax-text">
                         33&nbsp;года&nbsp;33&nbsp;года
-                    </span>{' '}
+                    </span>
                 </SwiperSlide>
                 <SwiperSlide>
+                    {/* TODO попробовать вынести горизонтальный слайдер в отдельный компонент */}
                     <Swiper
                         spaceBetween={50}
                         pagination={
-                            !isMobile
-                                ? {
-                                      clickable: true,
-                                  }
-                                : mobilePagination
+                            !isMobile ? { clickable: true } : mobilePagination
                         }
                         mousewheel={
-                            !isMobile
-                                ? {
-                                      releaseOnEdges: true,
-                                  }
-                                : false
+                            !isMobile ? { releaseOnEdges: true } : false
                         }
                         parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
                         className="nested-horizontal-slider"
-                        onToEdge={(swiper) => {
-                            setTimeout(() => {
-                                swiperRef.current?.swiper.mousewheel.enable();
-                            }, 0);
-                        }}
-                        // TODO в отдельный метод
-                        onScroll={(swiper, event: any) => {
-                            const isFirstSlide =
-                                swiper.slides.length === swiper.activeIndex + 1;
-                            const isLastSlide = swiper.activeIndex === 0;
-                            const nextScroll = event.wheelDelta < 0;
-                            const prevScroll = event.wheelDelta > 0;
-                            if (prevScroll && !isFirstSlide) {
-                                swiperRef.current?.swiper.mousewheel.disable();
-                            }
-                            if (nextScroll && !isLastSlide) {
-                                swiperRef.current?.swiper.mousewheel.disable();
-                            }
-                        }}
+                        onToEdge={onEnableVerticalSlideChange}
+                        onScroll={onHorizontalScroll}
                     >
                         <span
                             className="parallax-bg parallax-text"
@@ -143,14 +126,12 @@ export const Main = () => {
                             <Container>
                                 <MainSlideBlock
                                     title={slidesData[0][0].slideTitle}
-                                    // onMouseEnter={handleMouseEnter}
-                                    // onMouseLeave={handleMouseLeave}
                                 >
                                     <Subtitle className="preview-text" size="l">
                                         {slidesData[0][0].leftText.text}
                                     </Subtitle>
                                     {isMobile ? (
-                                        <NextButton onClick={nextSlide} />
+                                        <NextButton onClick={onNextSlide} />
                                     ) : null}
                                 </MainSlideBlock>
                             </Container>
@@ -163,54 +144,32 @@ export const Main = () => {
                                 >
                                     <HorizontalSlide
                                         slideScroll={slideScroll}
-                                        handleNextSlide={nextSlide}
+                                        handleNextSlide={onNextSlide}
                                         slideData={item}
                                     />
                                 </SwiperSlide>
                             ) : null;
                         })}
-                        {!isMobile ? <NextButton onClick={nextSlide} /> : null}
+                        {!isMobile ? (
+                            <NextButton onClick={onNextSlide} />
+                        ) : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
+                    {/* TODO попробовать вынести горизонтальный слайдер в отдельный компонент */}
                     <Swiper
                         spaceBetween={50}
                         pagination={
-                            !isMobile
-                                ? {
-                                      clickable: true,
-                                  }
-                                : mobilePagination
+                            !isMobile ? { clickable: true } : mobilePagination
                         }
                         mousewheel={
-                            !isMobile
-                                ? {
-                                      releaseOnEdges: true,
-                                  }
-                                : false
+                            !isMobile ? { releaseOnEdges: true } : false
                         }
                         parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
                         className="nested-horizontal-slider"
-                        onToEdge={(swiper) => {
-                            setTimeout(() => {
-                                swiperRef.current?.swiper.mousewheel.enable();
-                            }, 0);
-                        }}
-                        // TODO в отдельный метод
-                        onScroll={(swiper, event: any) => {
-                            const isFirstSlide =
-                                swiper.slides.length === swiper.activeIndex + 1;
-                            const isLastSlide = swiper.activeIndex === 0;
-                            const nextScroll = event.wheelDelta < 0;
-                            const prevScroll = event.wheelDelta > 0;
-                            if (prevScroll && !isFirstSlide) {
-                                swiperRef.current?.swiper.mousewheel.disable();
-                            }
-                            if (nextScroll && !isLastSlide) {
-                                swiperRef.current?.swiper.mousewheel.disable();
-                            }
-                        }}
+                        onToEdge={onEnableVerticalSlideChange}
+                        onScroll={onHorizontalScroll}
                     >
                         <span
                             className="parallax-bg parallax-text"
@@ -218,7 +177,7 @@ export const Main = () => {
                         >
                             33&nbsp;года&nbsp;33&nbsp;года
                         </span>
-                        {slidesData[1].map((item, idx) => {
+                        {slidesData[1].map((item) => {
                             return (
                                 <SwiperSlide
                                     key={item.rightText.title}
@@ -226,54 +185,32 @@ export const Main = () => {
                                 >
                                     <HorizontalSlide
                                         slideScroll={slideScroll}
-                                        handleNextSlide={nextSlide}
+                                        handleNextSlide={onNextSlide}
                                         slideData={item}
                                     />
                                 </SwiperSlide>
                             );
                         })}
-                        {!isMobile ? <NextButton onClick={nextSlide} /> : null}
+                        {!isMobile ? (
+                            <NextButton onClick={onNextSlide} />
+                        ) : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
+                    {/* TODO попробовать вынести горизонтальный слайдер в отдельный компонент */}
                     <Swiper
                         spaceBetween={50}
                         pagination={
-                            !isMobile
-                                ? {
-                                      clickable: true,
-                                  }
-                                : mobilePagination
+                            !isMobile ? { clickable: true } : mobilePagination
                         }
                         mousewheel={
-                            !isMobile
-                                ? {
-                                      releaseOnEdges: true,
-                                  }
-                                : false
+                            !isMobile ? { releaseOnEdges: true } : false
                         }
                         parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
                         className="nested-horizontal-slider"
-                        onToEdge={(swiper) => {
-                            setTimeout(() => {
-                                swiperRef.current?.swiper.mousewheel.enable();
-                            }, 0);
-                        }}
-                        // TODO в отдельный метод
-                        onScroll={(swiper, event: any) => {
-                            const isFirstSlide =
-                                swiper.slides.length === swiper.activeIndex + 1;
-                            const isLastSlide = swiper.activeIndex === 0;
-                            const nextScroll = event.wheelDelta < 0;
-                            const prevScroll = event.wheelDelta > 0;
-                            if (prevScroll && !isFirstSlide) {
-                                swiperRef.current?.swiper.mousewheel.disable();
-                            }
-                            if (nextScroll && !isLastSlide) {
-                                swiperRef.current?.swiper.mousewheel.disable();
-                            }
-                        }}
+                        onToEdge={onEnableVerticalSlideChange}
+                        onScroll={onHorizontalScroll}
                     >
                         <span
                             className="parallax-bg parallax-text"
@@ -281,7 +218,7 @@ export const Main = () => {
                         >
                             33&nbsp;года&nbsp;33&nbsp;года
                         </span>
-                        {slidesData[2].map((item, idx) => {
+                        {slidesData[2].map((item) => {
                             return (
                                 <SwiperSlide
                                     key={item.rightText.title}
@@ -289,13 +226,15 @@ export const Main = () => {
                                 >
                                     <HorizontalSlide
                                         slideScroll={slideScroll}
-                                        handleNextSlide={nextSlide}
+                                        handleNextSlide={onNextSlide}
                                         slideData={item}
                                     />
                                 </SwiperSlide>
                             );
                         })}
-                        {!isMobile ? <NextButton onClick={nextSlide} /> : null}
+                        {!isMobile ? (
+                            <NextButton onClick={onNextSlide} />
+                        ) : null}
                     </Swiper>
                 </SwiperSlide>
                 <SwiperSlide>
