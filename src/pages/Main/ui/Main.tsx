@@ -1,14 +1,5 @@
-import clsx from 'clsx';
 import { Layout } from 'widgets/Layout';
-import {
-    Autoplay,
-    Controller,
-    FreeMode,
-    Mousewheel,
-    Navigation,
-    Pagination,
-    Parallax,
-} from 'swiper';
+import { Autoplay, Mousewheel, Navigation, Pagination, Parallax } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { PreviewBlock } from 'widgets/PreviewBlock';
 import YearOldIcon from 'shared/assets/img/year-old-icon.png';
@@ -16,10 +7,9 @@ import './Main.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/parallax';
-import { forwardRef, Ref, UIEventHandler, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { slidesData } from 'shared/config/slidesData';
 import { FinalSlide } from 'widgets/FinalSlide';
-import { HorizontalSlider } from 'widgets/Slider';
 import { SwiperRef } from 'swiper/react/swiper-react';
 import { MainSlideBlock } from 'widgets/MainSlideBlock';
 import { Subtitle } from 'shared/ui/Subtitle';
@@ -27,21 +17,14 @@ import { ThreeColumns } from 'widgets/ThreeColumns';
 import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
 import { mobile } from 'shared/libs';
 import { PaginationOptions } from 'swiper/types';
-import { NavigationOptions } from 'swiper/types/modules/navigation';
 import { Container } from 'shared/ui/Container/Container';
 
-export interface MainProps {
-    className?: string;
-}
-
-export const Main = (props: MainProps) => {
-    const { className } = props;
+export const Main = () => {
     const [slideScroll, setSlideScroll] = useState<number>(
         document.documentElement.clientHeight / 2
     );
 
     const swiperRef = useRef<SwiperRef>();
-    const nextBtnRef = useRef<HTMLDivElement>(null);
     const isMobile = mobile();
 
     const mobilePagination: PaginationOptions = {
@@ -54,6 +37,7 @@ export const Main = (props: MainProps) => {
         },
     };
 
+    // TODO вынести в отдельный компонент
     // eslint-disable-next-line react/no-unstable-nested-components
     const NextBtn = () => (
         <button
@@ -102,7 +86,6 @@ export const Main = (props: MainProps) => {
                 }}
                 modules={[Pagination, Mousewheel, Navigation]}
                 onToEdge={() => {
-                    console.log('vert Edge en');
                     setTimeout(() => {
                         swiperRef.current?.swiper.mousewheel.enable();
                     }, 0);
@@ -138,24 +121,21 @@ export const Main = (props: MainProps) => {
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
                         className="nested-horizontal-slider"
                         onToEdge={(swiper) => {
-                            console.log('hor Edge en');
                             setTimeout(() => {
                                 swiperRef.current?.swiper.mousewheel.enable();
                             }, 0);
                         }}
+                        // TODO в отдельный метод
                         onScroll={(swiper, event: any) => {
-                            console.log('hor', swiper, event);
                             const isFirstSlide =
                                 swiper.slides.length === swiper.activeIndex + 1;
                             const isLastSlide = swiper.activeIndex === 0;
                             const nextScroll = event.wheelDelta < 0;
                             const prevScroll = event.wheelDelta > 0;
                             if (prevScroll && !isFirstSlide) {
-                                console.log('hor onScroll dis');
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                             if (nextScroll && !isLastSlide) {
-                                console.log('hor onScroll dis');
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                         }}
@@ -253,24 +233,21 @@ export const Main = (props: MainProps) => {
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
                         className="nested-horizontal-slider"
                         onToEdge={(swiper) => {
-                            console.log('hor Edge en');
                             setTimeout(() => {
                                 swiperRef.current?.swiper.mousewheel.enable();
                             }, 0);
                         }}
+                        // TODO в отдельный метод
                         onScroll={(swiper, event: any) => {
-                            console.log('hor', swiper, event);
                             const isFirstSlide =
                                 swiper.slides.length === swiper.activeIndex + 1;
                             const isLastSlide = swiper.activeIndex === 0;
                             const nextScroll = event.wheelDelta < 0;
                             const prevScroll = event.wheelDelta > 0;
                             if (prevScroll && !isFirstSlide) {
-                                console.log('hor onScroll dis');
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                             if (nextScroll && !isLastSlide) {
-                                console.log('hor onScroll dis');
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                         }}
@@ -354,24 +331,21 @@ export const Main = (props: MainProps) => {
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
                         className="nested-horizontal-slider"
                         onToEdge={(swiper) => {
-                            console.log('hor Edge en');
                             setTimeout(() => {
                                 swiperRef.current?.swiper.mousewheel.enable();
                             }, 0);
                         }}
+                        // TODO в отдельный метод
                         onScroll={(swiper, event: any) => {
-                            console.log('hor', swiper, event);
                             const isFirstSlide =
                                 swiper.slides.length === swiper.activeIndex + 1;
                             const isLastSlide = swiper.activeIndex === 0;
                             const nextScroll = event.wheelDelta < 0;
                             const prevScroll = event.wheelDelta > 0;
                             if (prevScroll && !isFirstSlide) {
-                                console.log('hor onScroll dis');
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                             if (nextScroll && !isLastSlide) {
-                                console.log('hor onScroll dis');
                                 swiperRef.current?.swiper.mousewheel.disable();
                             }
                         }}
