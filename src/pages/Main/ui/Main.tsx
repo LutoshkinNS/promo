@@ -20,9 +20,10 @@ import { NextButton } from 'shared/ui/NextButton';
 import { HorizontalSlide } from 'widgets/HorizontalSlide/HorizontalSlide';
 
 export const Main = () => {
-    const [slideScroll, setSlideScroll] = useState<number>(
-        document.documentElement.clientHeight / 2
-    );
+    const scrollCoefficient = 2.5;
+    const [slideScroll, setSlideScroll] = useState<{ [key: string]: number }>({
+        initialValue: document.documentElement.clientHeight / scrollCoefficient,
+    });
 
     const verticalSwiperRef = useRef<SwiperRef>();
     const isMobile = mobile();
@@ -43,11 +44,14 @@ export const Main = () => {
     };
 
     // FIXME any type
-    const handleSlideScroll = (event: any) => {
+    const handleSlideScroll = (event: any, key: string) => {
         const { currentTarget } = event;
         const scroll = currentTarget.scrollTop;
         const heightSlideEl = currentTarget.getBoundingClientRect().height;
-        setSlideScroll((heightSlideEl - scroll) / 2);
+        setSlideScroll((prevState) => ({
+            ...prevState,
+            [key]: (heightSlideEl - scroll) / scrollCoefficient,
+        }));
     };
 
     const onEnableVerticalSlideChange = () => {
@@ -139,7 +143,12 @@ export const Main = () => {
                         {slidesData[0].map((item, idx) => {
                             return idx !== 0 ? (
                                 <SwiperSlide
-                                    onScroll={handleSlideScroll}
+                                    onScroll={(event) =>
+                                        handleSlideScroll(
+                                            event,
+                                            item.rightText.title
+                                        )
+                                    }
                                     key={item.rightText.title}
                                 >
                                     <HorizontalSlide
@@ -181,7 +190,12 @@ export const Main = () => {
                             return (
                                 <SwiperSlide
                                     key={item.rightText.title}
-                                    onScroll={handleSlideScroll}
+                                    onScroll={(event) =>
+                                        handleSlideScroll(
+                                            event,
+                                            item.rightText.title
+                                        )
+                                    }
                                 >
                                     <HorizontalSlide
                                         slideScroll={slideScroll}
@@ -222,7 +236,12 @@ export const Main = () => {
                             return (
                                 <SwiperSlide
                                     key={item.rightText.title}
-                                    onScroll={handleSlideScroll}
+                                    onScroll={(event) =>
+                                        handleSlideScroll(
+                                            event,
+                                            item.rightText.title
+                                        )
+                                    }
                                 >
                                     <HorizontalSlide
                                         slideScroll={slideScroll}

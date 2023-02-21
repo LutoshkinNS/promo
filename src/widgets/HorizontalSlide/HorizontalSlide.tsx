@@ -10,7 +10,7 @@ import s from './HorizontalSlide.module.css';
 
 export interface HorizontalSlideProps {
     slideData: SlideData;
-    slideScroll?: number;
+    slideScroll?: { [key: string]: number };
     handleNextSlide: () => void;
 }
 
@@ -18,13 +18,19 @@ export const HorizontalSlide = (props: HorizontalSlideProps) => {
     const { slideData, slideScroll, handleNextSlide } = props;
     const isMobile = mobile();
 
+    const getImgScroll = () => {
+        if (slideScroll) {
+            if (slideScroll[slideData.rightText.title]) {
+                return slideScroll[slideData.rightText.title];
+            }
+            return slideScroll.initialValue;
+        }
+        return undefined;
+    };
+
     return (
         <Container>
-            <MainSlideBlock
-                title={slideData.slideTitle}
-                // onMouseEnter={handleMouseEnter}
-                // onMouseLeave={handleMouseLeave}
-            >
+            <MainSlideBlock title={slideData.slideTitle}>
                 <ThreeColumns
                     img={
                         <img
@@ -33,7 +39,7 @@ export const HorizontalSlide = (props: HorizontalSlideProps) => {
                             className="imageSlide"
                         />
                     }
-                    slideScroll={slideScroll}
+                    slideScroll={getImgScroll()}
                 >
                     <TitleWithTextBlock
                         align={!isMobile ? 'right' : 'center'}

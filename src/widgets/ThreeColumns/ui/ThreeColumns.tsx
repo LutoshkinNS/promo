@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ReactNode } from 'react';
+import { mobile } from 'shared/libs';
 import s from './ThreeColumns.module.css';
 
 export interface ThreeColumnsProps {
@@ -11,6 +12,7 @@ export interface ThreeColumnsProps {
 
 export const ThreeColumns = (props: ThreeColumnsProps) => {
     const { className, children, img, slideScroll } = props;
+    const isMobile = mobile();
 
     return (
         <div className={clsx(s.ThreeColumns, className)}>
@@ -18,7 +20,7 @@ export const ThreeColumns = (props: ThreeColumnsProps) => {
             <div
                 className={s.imgContainer}
                 style={
-                    slideScroll
+                    slideScroll && isMobile
                         ? {
                               transform: `translateY(-${slideScroll}px) translateX(0%)`,
                           }
