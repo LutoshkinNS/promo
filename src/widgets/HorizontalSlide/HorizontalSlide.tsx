@@ -5,14 +5,17 @@ import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
 import { Container } from 'shared/ui/Container/Container';
 import { SlideData } from 'shared/config/slidesData';
 import { mobile } from 'shared/libs';
+import { NextButton } from 'shared/ui/NextButton';
 import s from './HorizontalSlide.module.css';
 
 export interface HorizontalSlideProps {
     slideData: SlideData;
+    slideScroll?: number;
+    handleNextSlide: () => void;
 }
 
 export const HorizontalSlide = (props: HorizontalSlideProps) => {
-    const { slideData } = props;
+    const { slideData, slideScroll, handleNextSlide } = props;
     const isMobile = mobile();
 
     return (
@@ -43,7 +46,7 @@ export const HorizontalSlide = (props: HorizontalSlideProps) => {
                         text={slideData.rightText.text}
                     />
                 </ThreeColumns>
-                {isMobile ? <NextBtn /> : null}
+                {isMobile ? <NextButton onClick={handleNextSlide} /> : null}
             </MainSlideBlock>
         </Container>
     );
