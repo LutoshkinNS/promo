@@ -1,9 +1,9 @@
-import clsx from "clsx";
-import { Title } from "shared/ui/Title/Title";
-import { TitleWithTextBlock } from "widgets/TitleWithTextBlock";
-import { Container } from "shared/ui/Container/Container";
-import { Subtitle } from "shared/ui/Subtitle";
-import s from "./FinalSlide.module.css";
+import clsx from 'clsx';
+import { Title } from 'shared/ui/Title/Title';
+import { TitleWithTextBlock } from 'widgets/TitleWithTextBlock';
+import { Container } from 'shared/ui/Container/Container';
+import { Subtitle } from 'shared/ui/Subtitle';
+import s from './FinalSlide.module.css';
 
 export interface FinalSlideProps {
     className?: string;

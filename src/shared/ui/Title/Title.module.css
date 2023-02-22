@@ -2,9 +2,12 @@
     font-family: 'Montserrat', sans-serif;
     font-weight: 900;
     color: transparent;
+    margin: 0;
+}
+
+.primary {
     -webkit-text-stroke: 2px var(--primary-text-color);
     text-stroke: 2px var(--primary-text-color);
-    margin: 0;
 }
 
 .l {

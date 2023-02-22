@@ -17,7 +17,7 @@ import { mobile } from 'shared/libs';
 import { PaginationOptions } from 'swiper/types';
 import { Container } from 'shared/ui/Container/Container';
 import { NextButton } from 'shared/ui/NextButton';
-import { HorizontalSlide } from 'widgets/HorizontalSlide/HorizontalSlide';
+import { HorizontalSlide } from 'widgets/HorizontalSlide';
 
 export const Main = () => {
     const scrollCoefficient = 2.5;

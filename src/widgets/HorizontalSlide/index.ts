@@ -1,1 +1,1 @@
-export * from './HorizontalSlider/HorizontalSlider';
+export * from './HorizontalSlide';
