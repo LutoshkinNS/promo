@@ -65,13 +65,11 @@
         --swiper-pagination-top: 0%;
     }
 
-    /*.nested-horizontal-slider {*/
-    /*    display: flex;*/
-    /*    flex-direction: column;*/
-    /*}*/
+    .scrollable-slide .swiper-slide {
+        overflow-y: auto;
+    }
 
     .nested-horizontal-slider .swiper-slide {
-        overflow-y: auto;
         padding-top: 10vh;
         padding-bottom: 0vh;
     }

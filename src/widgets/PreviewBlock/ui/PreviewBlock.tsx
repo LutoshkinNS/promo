@@ -21,11 +21,11 @@ export const PreviewBlock = (props: PreviewBlockProps) => {
                 </div>
                 <div className={s.textBlock}>
                     <Subtitle className={s.title} size="l">
-                        6 марта "Хлынов" - отмечает день рождения!
+                        Шестого марта банк «Хлынов» отмечает День рождения!
                     </Subtitle>
                     <Text className={s.text} size="l" variant="third">
-                        от 6 марта 1990 года идет отсчет нашей работы: Банк
-                        Хлынов получает лицензию по новым правилам двух
+                        от 6 марта 1990 года идет отсчет нашей работы: 
+                        Банк Хлынов получает лицензию по новым правилам двух
                         уровневой банковской системы
                     </Text>
                 </div>

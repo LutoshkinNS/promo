@@ -10,6 +10,7 @@ export default (env: BuildEnv) => {
         output: path.resolve(__dirname, 'dist'),
         html: path.resolve(__dirname, 'public', 'index.html'),
         src: path.resolve(__dirname, 'src'),
+        favicon: path.resolve(__dirname, 'public', 'favicon.ico'),
     };
 
     const mode = env.mode || 'development';

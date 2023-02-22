@@ -4,17 +4,26 @@
 
     --base-font-size: 16;
 
+    /*text*/
+    --text-size-s: calc(16/var(--base-font-size)*1rem);
+    --line-height-s: 1.4;
+
     --text-size-m: calc(18/var(--base-font-size)*1rem);
     --line-height-m: 1.4;
 
     --text-size-l: calc(20/var(--base-font-size)*1rem);
     --line-height-l: 1.4;
 
+    /*subtitle*/
     --subtitle-size-m: calc(34/var(--base-font-size)*1rem);
     --subtitle-line-height-m: 1;
 
     --subtitle-size-l: calc(70/var(--base-font-size)*1rem);
     --subtitle-line-height-l: 1;
+
+    /*title*/
+    --title-size-s: calc(110/var(--base-font-size)*1rem);
+    --title-line-height-s: 1;
 
     --title-size-m: calc(140/var(--base-font-size)*1rem);
     --title-line-height-m: 1;
@@ -22,13 +31,16 @@
     --title-size-l: calc(253/var(--base-font-size)*1rem);
     --title-line-height-l: 1;
 
+    /*pagination*/
     --pagination-size: calc(40/var(--base-font-size)*1rem);
     --pagination-size-active: calc(88/var(--base-font-size)*1rem);
     --pagination-line-height: 1;
 
+    /*parallax*/
     --parallax-text-size: calc(480/var(--base-font-size)*1rem);
     --parallax-text-line-height: 1;
 
+    /*font*/
     --base-font: var(--text-size-m)/var(--line-height-m) "GraphikLCG", sans-serif;
     --secondary-font: var(--text-size-m)/var(--line-height-m) "Montserrat", sans-serif;
 

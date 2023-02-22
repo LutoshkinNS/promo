@@ -2,6 +2,8 @@ import clsx from 'clsx';
 import { ReactNode } from 'react';
 import Logo from 'shared/assets/img/logo/logo.svg?url';
 import { mobile } from 'shared/libs';
+import { LinkButton } from 'shared/ui/LinkButton';
+import { links } from 'shared/config/links';
 import s from './Layout.module.css';
 
 export interface LayoutProps {
@@ -19,7 +21,14 @@ export const Layout = (props: LayoutProps) => {
             {!isMobile ? (
                 <header className={s.header}>
                     <img src={Logo} alt="" />
-                    <button type="button">Интернет банк</button>
+                    <div className={s.linksBlock}>
+                        <LinkButton href={links.IB.link}>
+                            {links.IB.label}
+                        </LinkButton>
+                        <LinkButton href={links.SITE.link}>
+                            {links.SITE.label}
+                        </LinkButton>
+                    </div>
                 </header>
             ) : null}
             <main className={s.main}>{children}</main>

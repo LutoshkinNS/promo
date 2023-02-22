@@ -10,6 +10,14 @@
     text-stroke: 2px var(--primary-text-color);
 }
 
+.gradient {
+    background-image: var(--bg-gradient);
+    background-clip: text;
+    -webkit-background-clip: text;
+    /*-webkit-text-stroke: 2px var(--primary-text-color);*/
+    /*text-stroke: 2px var(--primary-text-color);*/
+}
+
 .l {
     font-size: var(--title-size-l);
     line-height: var(--title-line-height-l);
@@ -18,4 +26,16 @@
 .m {
     font-size: var(--title-size-m);
     line-height: var(--title-line-height-m);
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+.center {
+    text-align: center;
 }

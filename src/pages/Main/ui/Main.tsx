@@ -1,5 +1,13 @@
 import { Layout } from 'widgets/Layout';
-import { Autoplay, Mousewheel, Navigation, Pagination, Parallax } from 'swiper';
+import {
+    Autoplay,
+    FreeMode,
+    Mousewheel,
+    Navigation,
+    Pagination,
+    Parallax,
+    Scrollbar,
+} from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { PreviewBlock } from 'widgets/PreviewBlock';
 import YearOldIcon from 'shared/assets/img/year-old-icon.png';
@@ -86,7 +94,7 @@ export const Main = () => {
                 }}
                 direction="vertical"
                 spaceBetween={50}
-                className="vertical-slider"
+                className="vertical-slider scrollable-slide"
                 mousewheel={!isMobile ? { thresholdTime: 300 } : false}
                 allowTouchMove={false}
                 navigation={{
@@ -116,7 +124,7 @@ export const Main = () => {
                         }
                         parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
-                        className="nested-horizontal-slider"
+                        className="nested-horizontal-slider scrollable-slide"
                         onToEdge={onEnableVerticalSlideChange}
                         onScroll={onHorizontalScroll}
                     >
@@ -176,7 +184,7 @@ export const Main = () => {
                         }
                         parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
-                        className="nested-horizontal-slider"
+                        className="nested-horizontal-slider scrollable-slide"
                         onToEdge={onEnableVerticalSlideChange}
                         onScroll={onHorizontalScroll}
                     >
@@ -222,7 +230,7 @@ export const Main = () => {
                         }
                         parallax
                         modules={[Mousewheel, Pagination, Parallax, Autoplay]}
-                        className="nested-horizontal-slider"
+                        className="nested-horizontal-slider scrollable-slide"
                         onToEdge={onEnableVerticalSlideChange}
                         onScroll={onHorizontalScroll}
                     >

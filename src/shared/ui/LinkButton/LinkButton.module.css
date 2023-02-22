@@ -1,0 +1,12 @@
+.LinkButton {
+    min-width: 100px;
+    min-height: 30px;
+    border-radius: 7px;
+    border: 1px solid var(--secondary-text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: var(--secondary-text-color);
+    padding: 6px 10px;
+}
